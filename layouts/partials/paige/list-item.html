@@ -1,0 +1,5 @@
+{{ if in .list "research" }}
+  {{ partial "paige/list-item-research.html" . }}
+{{ else }}
+  {{ partial "paige/list-item-original.html" . }}
+{{ end }}

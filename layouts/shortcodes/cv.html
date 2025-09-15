@@ -1,0 +1,168 @@
+<style>
+.cv h2 {
+  margin-top: 0em;
+  margin-bottom: 0em;
+  border-bottom: 1.7px solid;
+  border-color:  #c8c8c8;
+  padding-bottom: 2px;
+}
+.cv a {
+  text-decoration: none;
+}
+.cv a:hover {
+  text-decoration: underline;
+}
+
+
+.education p{
+    margin-bottom: 10px;
+  }
+
+  .experience li{
+    padding-bottom: 3px;
+  }
+  .experience ul{
+    padding-top: 3px;
+  }
+
+
+  .language-container {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 20pt;
+  }
+  .language-container img {
+      height: 1.5vh;
+      width: auto;
+      margin:0;
+  }
+  .language-container p {
+    margin-bottom: 0;
+    margin-left:5pt
+  } 
+</style>
+
+<div class="cv">
+
+    <h2 style="border-bottom:none; padding-bottom:10px"> <a href="/contact"><strong>Contact me</strong></a></h2>
+    
+{{/*  EXPERTIZE   */}}
+{{ $expertise := .Site.Data.cv.expertise }}
+{{ if $expertise.enabled }}
+<div class="expertise">
+  <h2> Areas of Expertise </h2>
+  <ul>
+  {{ range $expertise.list }}
+    <li>{{ . | markdownify}}</li>
+  {{ end }}
+  </ul>
+</div>
+{{ end }}
+
+
+
+
+<div class="education">
+
+    {{/*  EDUCATION   */}}
+    {{ $educations := .Site.Data.cv.education }}
+    {{ if $educations.enabled }}
+    <div class="education">
+    <h2> Education</h2>
+    
+    {{ range $key, $item := $educations.list }}
+      {{ partial "cvitem.html" . }}
+    {{ end }}
+    </div>
+    {{ end }}
+    
+    {{/*  EXPERIENCE   */}}
+    {{ $experiences := .Site.Data.cv.experience }}
+    {{ if $experiences.enabled }}
+    <div class="experience">
+    <h2> Experience</h2>
+    
+    {{ range $key, $item := $experiences.list }}
+      {{ partial "cvitem.html" . }}
+    {{ end }}
+    </div>
+    {{ end }}
+    
+    
+    {{/*  PUBLICATIONS   */}}
+    {{ $publications := .Site.Data.publications }}
+    <div class="publications" style="max-width: 700px; margin-left: 0; margin-right: auto;">
+      <h2> Publications </h2>
+      <ul>
+      {{ range $publications }}
+        <li>
+          <a href="{{.url}}" target="_blank">{{ .authors | markdownify}}, "{{ .title | markdownify}}." {{ .journal | markdownify}}.</a>
+          <a href="{{.arxiv}}" target="_blank"> (Arxiv)</a>
+        </li>
+      {{ end }}
+      </ul>
+    </div>
+    
+    
+    {{/*  CONFERENCES   */}}
+    {{ $conferences := .Site.Data.cv.conferences }}
+    {{ if $conferences.enabled }}
+    <div class="conferences">
+      <h2> Conferences </h2>
+      <ul>
+      {{ range $conferences.list }}
+        <li>
+          <div style="display: flex; justify-content: space-between;">
+            <div><a href="{{.url}}" target="_blank"><strong>{{ .name | markdownify}}</strong></a>, {{.location}}</div>
+            <div>{{ .date | markdownify}}</div>
+          </div>
+        </li>
+      {{ end }}
+      </ul>
+    </div>
+    {{ end }}
+    
+    
+    {{/*  AWARDS   */}}
+    {{ $awards := .Site.Data.cv.awards }}
+    {{ if $awards.enabled }}
+    <div class="awards">
+      <h2> Awards </h2>
+      <ul>
+      {{ range $awards.list }}
+        <li>{{ . | markdownify}}</li>
+      {{ end }}
+      </ul>
+    </div>
+    {{ end }}
+    
+    
+    {{/*  COMPUTER SKILLS   */}}
+    {{ $computerskils := .Site.Data.cv.computerskils }}
+    {{ if $computerskils.enabled }}
+    <div class="awards">
+      <h2> Computers Skils </h2>
+      {{ $computerskils.content | markdownify}}
+    </div>
+    {{ end }}
+    
+    
+    {{/*  LANGUAGES   */}}
+    {{ $languages := .Site.Data.cv.languages }}
+    {{ if $languages.enabled }}
+    <div class="languages">
+      <h2> Languages </h2>
+      <div style="margin-top:6pt">
+      {{ range $languages.list }}
+      <div class="language-container">
+        <img src="{{ .flag }}">
+        <p>{{.name}}</p>
+      </div>
+      {{ end }}
+      </div>
+    </div>
+    {{ end }}
+    
+
+
+</div>

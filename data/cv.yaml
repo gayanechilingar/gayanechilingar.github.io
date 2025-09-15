@@ -1,0 +1,217 @@
+
+expertise:
+    enabled: true
+    list:
+        - '**Mathematics:** probability, stochastic processes, statistics, analysis, optimization,'
+        - '**Physics:** non-equilibrium statistical mechanics, biological physics, physical chemistry,'
+        - '**Computer science:** machine learning, algorithms, data structures, molecular dynamics,'
+        - '**Software engineering:** high performance/scientific computing, parallelization.'
+
+
+
+education:
+    enabled: true
+    list:
+        master:
+            name: Cambridge, Trinity College
+            role: Master's degree, Mathematics
+            date: Oct 2021 -- June 2022
+            location: Cambridge, UK
+            logo: /logo/cambridge.png
+            url: https://www.trin.cam.ac.uk/
+            description: |
+                Probability, Stochastic Processes, Information theory and Statistics.
+ 
+                **Distinction** from Part III exams (GPA 4.0/4.0 equivalent).
+
+        undergrad:
+            name: Cambridge, Trinity College
+            role: Bachelor's degree, Natural Sciences
+            date: Oct 2018 -- June 2021
+            location: Cambridge, UK
+            logo: /logo/trinity-color.svg
+            url: https://www.trin.cam.ac.uk/
+            description: |
+                *Major*: Theoretical physics,
+
+                *Minor*: Mathematics, Physical Chemistry, Biology of Cells,
+
+                **First Class** from Tripos examinations (GPA 4.0/4.0 equivalent).
+
+
+experience:
+    enabled: true
+    list:
+        -   
+            hide: false
+            name: 'Max Planck Institute for the Physics of Complex Systems'
+            logo: /logo/pks.jpeg
+            date: Nov 2022 -- *present*
+            role: 'Graduate student'
+            url: https://www.pks.mpg.de
+            location: 'Dresden, Germany'
+            description: |
+                * Non-equilibrium statistical mechanics, Stochastic processes
+                * Biological physics, Active matter
+                * Theory and Simulations
+
+                PhD supervisor [Dr. Ricard Alert](https://ricardalertzenon.wixsite.com/ricardalertzenon)
+        
+        -
+            name: 'Max Plank Institute for Dynamics and Self-Organization'
+            logo: /logo/mpi-ds.svg
+            date: Jun 2021 -- Sep 2021
+            role: Research Internship
+            url: https://www.ds.mpg.de/lmp
+            location: 'Göttingen, Germany'
+            description: |
+                * Active Brownian motion, path integral approach.
+                    
+                supervisor [Dr. Benoît Mahault](https://www.ds.mpg.de/3763657/dr-benoit-mahault)
+        -
+            name: Alikhanyan National Laboratory  (YerPhi)
+            date: Jun 2020 -- June 2022
+            logo: /logo/aanl.png
+            role: Researcher
+            url: 'https://www.yerphi.am/?lang=en'
+            location: 'Yerevan, Armenia'
+            description: |
+                * Magnetobiology, Biological physics
+                * Non-equilibrium thermodynamics for rotating systems,
+                * 3 publications in Q1 journals.
+
+                supervisor [Prof. Armen Allahverdyan](https://sites.google.com/site/armenallahverdyan/)
+        
+        -
+            name: YerevaNN research lab
+            logo: /logo/yerevann.svg
+            url: https://yerevann.com/
+            date: Jul 2019 -- Sep 2019
+            location: Yerevan, Armenia
+            role: Research Internship in ML
+            description: |
+                * Information theory in machine learning
+                * heart disease (Brugada) prediction, ECG data analysis,
+                * invariant representations: a method to prevent overfitting,
+                * 95% accuracy on a dataset of 300 people.
+                * collaboration with St George's Hospital, London, UK
+
+        -
+            name: HiLearn
+            date: Sep 2017 -- Aug 2018
+            logo: /logo/hilearn.png
+            location: Yerevan, Armenia
+            role: Machine Learning Scientist
+            description: |
+                * Designing and implementing trading algorithms on cryptocurrency markets,
+                * Simulation of financial instruments for risk management.
+                * Deforestation detection with unsupervised learning, using satellite images.
+        
+        - 
+            name: Armenian Code Academy
+            logo: /logo/aca.jpg
+            location: Yerevan, Armenia
+            role: Machine Learning Internship
+            date: Mar 2017 -- Aug 2017
+            description: |
+                Classical ML, NLP,
+                TSA,
+                reinforcement learning,
+                Bayesian inference, probabilistic graphical models.
+
+        -            
+            name: Physics teacher at "Quantum" College
+            logo: /logo/qvant.png
+            role: Physics club for students
+            date: Sep 2016 -- Jun 2018
+            location: Yerevan, Armenia
+            description: |
+                Trained high school students for the national and international physics competitions.
+        -
+            name: Quantum College Alumni Charitable Fund
+            url: https://quantum-alumni.am/
+            logo: /logo/quantum-alumni.png
+            date: June 2023 -- *present*
+            role: Board member
+            location: Yerevan, Armenia
+
+
+conferences:
+    enabled: true
+    list:
+        - 
+            name: Physical Biology Circle Meeting
+            url: https://igc.idloom.events/circle-meeting-2024
+            location: Lisbon, Portugal
+            date: 2024
+        -
+            name: DPG Spring Meeting, Condensed Matter Section (SKM)
+            url: https://berlin24.dpg-tagungen.de/
+            location: Berlin, Germany
+            date: 2024
+        -
+            name: Workshop on Signatures of Nonequilibrium Fluctuations in Life
+            url: https://indico.ictp.it/event/10169
+            location: Trieste, Italy
+            date: 2023
+        -
+            name: DPG Spring Meeting, Condensed Matter Section (SKM)
+            url: https://skm23.dpg-tagungen.de/
+            location: Dresden, Germany
+            date: 2023
+
+
+awards:
+    enabled: true
+    list:
+        - |
+            **President's PhD scholarships**, *Imperial College London*, 2021, London, UK \
+            declined offer
+        - |
+            **Cambridge Trust scholarship**, 2018, Cambridge, UK \
+            **Trinity International Bursaries**, 2018, Cambridge, UK \
+            full scolarship for studying in Cambridge
+        - |
+            **ACM-ICPC NEERC Regional 2016**, *Finalist*, Tbilisi, Georgia
+        - |
+            **International Physics Olympiad**, *Silver medal*, 2016, Zurich, Switzerland
+        - |
+            **International Olympiad of Astronomy and Astrophysics**, *Bronze medal*, 2016, Bhubaneswar, India
+        - |
+            **International Zhautikov Olympiad**, *Gold medal*, 2016, Almaty, Kazakhstan
+        - |
+            **Armenian President's Prize**, *A prize for contribution in IT sphere*,  2015, Yerevan, Armenia
+        - |
+            **International Olympiad of Informatics**, *participation*, 2016, Kazan, Russia
+        - |
+            **International Physics Olympiad**, *Bronze medal*, 2015, Mumbai, India
+
+languages:
+    enabled: true
+    list:
+        - 
+            flag: /gb.svg
+            name: English
+        -
+            flag: /am.svg
+            name: Armenian 
+        - 
+            flag: /ru.svg
+            name: Russian
+        - 
+            flag: /de.svg
+            name: German (A2)
+
+computerskils:
+    enabled: true
+    content: |
+        ###
+        C, C++, Python, Wolfram Mathematica, R, Stan, git, bash
+
+        Scientific computing, Parallel computing, High-performance computing (HPC)
+
+        Algorithms and Data Structures
+
+        Deep learning, unsupervised learning, Probabilistic Graphical models
+
+        Data analysis, SQL and non-SQL databases

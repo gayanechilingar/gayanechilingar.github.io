@@ -1,0 +1,16 @@
+/* Place custom css here. */
+*,
+::before,
+::after {
+  --cv-shadow-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Place custom css here. */
+*,
+::before,
+::after {
+  --tw-max-width: 10rem;
+  --tw-cv-optimal-width: 580px;
+  --tw-cv-logo-width: 100px;
+}
+

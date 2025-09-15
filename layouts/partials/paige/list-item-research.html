@@ -1,0 +1,146 @@
+{{ $params := . }}
+
+{{ $item := $params.item }}
+{{ $list := $params.list }}
+
+{{ $authors := partial "paige/func-authors.html" $item | and ($list.Param "paige.subpages.disable_authors" | not) }}
+{{ $categories := $item.GetTerms "categories" }}
+{{ $date := $item.PublishDate | and ($list.Param "paige.subpages.disable_date" | not) }}
+{{ $description := $item.Params.Description | markdownify | plainify | htmlUnescape | and ($list.Param "paige.subpages.disable_description" | not) }}
+{{ $draft := $item.Draft }}
+{{ $expired := and $item.ExpiryDate (lt $item.ExpiryDate now) }}
+{{ $flags := slice }}
+{{ $format := $list.Param "paige.site.date_format" | default ":date_long" }}
+{{ $future := and $item.PublishDate (gt $item.PublishDate now) }}
+{{ $link := $item.RelPermalink }}
+{{ $modified := and $item.PublishDate $item.Lastmod (lt $item.PublishDate $item.Lastmod) }}
+{{ $normal := eq ($list.Param "paige.site.keyword_style" | default "text") "text" }}
+{{ $series := $item.GetTerms "series" | and ($list.Param "paige.subpages.disable_series" | not) }}
+{{ $summary := $item.Summary | markdownify | plainify | htmlUnescape | and ($list.Param "paige.subpages.disable_summary" | not) }}
+{{ $tags := $item.GetTerms "tags" }}
+{{ $time := $item.ReadingTime | and ($list.Param "paige.subpages.disable_reading_time" | not) }}
+{{ $title := $item.LinkTitle | markdownify | plainify | htmlUnescape | and ($list.Param "paige.subpages.disable_title" | not) }}
+{{ $words := $item.WordCount | and ($list.Param "paige.subpages.disable_word_count" | not) }}
+
+{{ if $draft }}
+    {{ $flags = $flags | append "paige-status-draft" "paige-status-unpublished" }}
+{{ end }}
+
+{{ if $expired }}
+    {{ $flags = $flags | append "paige-status-expired" "paige-status-unpublished" }}
+{{ end }}
+
+{{ if $future }}
+    {{ $flags = $flags | append "paige-status-future" "paige-status-unpublished" }}
+{{ end }}
+
+{{ if $modified }}
+    {{ $flags = $flags | append "paige-status-modified" }}
+{{ end }}
+
+{{ if not (or $draft $expired $future) }}
+    {{ $flags = $flags | append "paige-status-published" }}
+{{ end }}
+
+{{ $class := delimit (slice "paige-page" "text-center" "w-100" | append $flags | uniq | sort) " " }}
+{{ $keywords := sort (append $categories $tags) "LinkTitle" | and ($list.Param "paige.subpages.disable_keywords" | not) }}
+
+
+{{ $intro := $item.Params.intro | markdownify | plainify | htmlUnescape  }}
+{{ $featured := $item.Params.featured }}
+
+
+
+
+<style>
+    .featured-picture {
+        float: left;
+        margin-right: 20px;
+        margin-bottom: 10px;
+        margin-top:10px;
+        width: 20%;
+        min-width: 250px;
+    }
+    .container img, .container video {
+        max-width: 100%;
+        height: auto;
+        margin:0;
+        border-radius: 10px;
+
+        
+    }
+    .container p {
+        margin-top:0;
+    }
+    .container a {
+        position: relative;
+        z-index:2;
+    }
+    .container {
+        overflow: hidden; /* To clear floats */
+        flex: 2;
+        text-align: justify; /* Justify the text */
+
+    }
+    .links a{
+        font-size:1.2rem ;
+        margin-left:25px;
+    }
+    .links {
+        width:100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+
+    }
+    .text-custom {
+        font-size: 1.4rem;
+    }
+    @media (max-width: 600px) {
+        .featured-picture {
+            float: none;
+            margin: 0 auto 0 auto;
+            display: block;
+            width: 80%;
+            max-width: 200px;
+        }
+    }
+</style>
+
+{{ with $item }}
+<section class="relative my-10 first-of-type:mt-0 last-of-type:mb-0 clickable-section" style="position:relative; cursor:pointer;" onclick="window.location='{{ .Permalink }}';" tabindex="0" onkeydown="if(event.key==='Enter'){window.location='{{ .Permalink }}';}">
+  <h1 class="mb-2 mt-3 font-bold text-custom">
+    <a href="{{ .Permalink }}" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" style="word-break: break-all; text-decoration: none;">{{ .Title }}</a>
+  </h1>
+  <div class="container">
+
+      <div class="featured-picture">
+        {{$featured := .Params.featured}}
+        {{ $ext := lower (path.Ext $featured) }}
+        {{ with .Resources.Get $featured  }}
+          {{ if in (slice ".jpg" ".jpeg" ".png"  ".webp" ".gif") $ext }}
+              <img src="{{ .RelPermalink | relURL }}" alt="">
+          {{ else if in (slice ".svg") $ext }}
+              <img src="{{ .RelPermalink | relURL }}" alt="">
+          {{ end }}
+        {{ end }}
+      </div>
+      {{ .Params.intro | markdownify }}
+      <div class="links">
+      {{ if .Params.journal }}
+          <a href="{{.Params.journal}}" target="_blank">Publication</a>
+      {{end}}
+      {{ if .Params.arxiv }}
+          <a href="{{.Params.arxiv}}" target="_blank">arXiv</a>
+      {{end}}
+      {{ if .Params.pdf }}
+          <a href="{{ .Params.pdf }}" target="_blank">pdf</a>
+      {{end}}
+      {{ if .Params.medium }}
+          <a href="{{ .Params.medium }}" target="_blank">Medium article</a>
+      {{end}}
+      </div>
+  </div>
+</section>
+{{ end }}
+
