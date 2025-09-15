@@ -1,0 +1,124 @@
+---
+title: Weak (non)conservation and stochastic dynamics of angular momentum
+date: 2024-04-08
+weight: 1
+
+journal: https://iopscience.iop.org/article/10.1088/1742-5468/ad3cce
+arxiv: http://arxiv.org/abs/2405.18660
+pdf: http://arxiv.org/pdf/2405.18660
+medium: https://medium.com/@ashmat98/the-stochastic-rotational-motion-when-symmetry-is-weakly-broken-2ff9dec9c964
+
+featured: images/collisions.jpg
+
+intro: |
+    Rotation is a fundamental phenomenon that permeates both nature and our everyday divves. From the Earth’s spin shaping our day and night cycle to the intricate machinery of biological systems divke ATP synthase, rotation is everywhere in the natural world.    
+    
+    In modern technology, turbines generate electricity through rotation, and the future of nuclear fusion hinges on ultrahot rotating plasma. Understanding rotation goes beyond mere appreciation of nature or technology; it’s about uncovering the fundamental principles that drive our world forward.
+
+---
+
+
+<style>
+    .image-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+    
+    .image-gallery div img {
+        object-fit: cover;
+        max-width: 100%;
+        height: auto;
+        vertical-align: middle;
+        border-radius: 5px;
+        margin: 0;
+    }
+</style>
+
+<p>Rotation is a fundamental phenomenon that permeates both nature and our everyday divves. From the Earth’s spin shaping our day and night cycle to the intricate machinery of biological systems divke ATP synthase, rotation is everywhere in the natural world. In modern technology, turbines generate electricity through rotation, and the future of nuclear fusion hinges on ultrahot rotating plasma. Understanding rotation goes beyond mere appreciation of nature or technology; it’s about uncovering the fundamental principles that drive our world forward.</p>
+
+
+<div class="media-container">
+    <!-- heading text -->
+    <div class="image-gallery">
+        <div style="flex: calc(214/260)">
+            <img src="images/atpase.gif">
+        </div>
+        <div style="flex: calc(700/700)">
+            <img src="images/starcluster.webp" >
+        </div>
+        <div style="flex: calc(660/440)">
+            <img src="images/tokamak.webp" >
+        </div>
+      <!-- other items here -->
+    </div>
+    <div class="caption">
+        <strong>(left) ATP Synthase</strong>: Nature’s Molecular Machine. This enzyme, found in our cells, acts as a biological power plant, generating ATP, the currency of cellular energy. Its rotating components, akin to tiny turbines, showcase nature’s elegant solution to energy production. <strong>(middle) Self-gravitating star cluster</strong>: Rotation prevents the collapse of these clusters, maintaining their structural integrity against gravitational forces. <strong>(right) Tokamak Reactor</strong>: A prototype of a fusion reactor, the Tokamak uses a strong magnetic field to confine rotating hot plasma. Collisions between charged particles within the plasma trigger fusion reactions, the same reactions that power our Sun.
+    </div>
+
+<p>
+    This serves as a brief overview of my research, which has been published in <a href="https://iopscience.iop.org/article/10.1088/1742-5468/ad3cce">JSTAT</a> and is also accessible on <a href="http://arxiv.org/abs/2405.18660">arXiv</a>.
+</p>
+
+
+<p>In all the examples above, we have a rotational symmetry, though it is never perfect and always approximate. ATP synthase is composed of proteins, which are rough due to their atomic discreteness. Star clusters are influenced by distant galaxies, slightly disrupting their symmetry. Similarly, Tokamaks face mechanical imperfections. <strong>Thus, understanding the effects of these small symmetry-breaking influences on rotational motion is crucial.</strong></p>
+<p>In all the above examples, we have a rotational symmetry, which is. however, never perfect and only approximate. ATP synthase is composed of proteins, which are rough due to their atomic discreteness. Or, the star clusters are influenced by other galaxies far away, which slightly break rotational symmetry. Neither Tokamak is perfectly symmetric due to mechanical imperfections. <strong>Therefore, it is important to understand the effects of these small symmetry-breaking effects on the rotational motion.</strong></p>
+<blockquote><p>Every symmetry in nature corresponds to a conservation law in physics — <a href='https://en.wikipedia.org/wiki/Emmy_Noether'>Emmy Noether</a></p>
+</blockquote>
+<p>Let’s start with time. The flow of time today is the same as it was 200 years ago. Physical laws remain constant over time, reflecting a symmetry in the fabric of time itself. A very important conservation law is linked to this symmetry — energy conservation.</p>
+<p>Similarly, our universe exhibits other symmetries. Space is uniform in all directions, meaning its properties remain unchanged whether we translate or rotate everything within it. This spatial symmetry underpins two additional conservation laws: the conservation of <a href='https://en.wikipedia.org/wiki/Momentum'>momentum</a> and the conservation of <a href='https://en.wikipedia.org/wiki/Angular_momentum'>angular momentum</a>.</p>
+<p><strong>When symmetry is weakly broken, what happens to these conservation laws? Do they become weakly conserved, and what does that even mean?</strong></p>
+<p>We are doing physics, we have to approach these questions with a simple model: a system of interacting particles confined in a spherically symmetric box. To simplify this, instead of the box we will take harmonic confining potential:</p>
+$$
+V(x, y)=\frac{1}{2} a^2(1+\varepsilon)^2 x^2+\frac{1}{2} a^2(1-\varepsilon)^2 y^2
+$$
+<p>When $\epsilon=0$, the potential is symmetric in the $x-y$ plane. A small ε introduces a weak symmetry violation. Suppose particles interact with each other through collisions. The numerical simulation of our system is shown in the video below:</p>
+
+<div class="media-container">
+    <video width="640"  controls  style="width:93%;margin:auto;">
+        <source src="images/collisions.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="caption">
+        About 500 particles are colliding with each other. On average, the system rotates, but this rotation gradually slows down. To illustrate the dynamics, we have highlighted the trajectories of three particles.
+    </div>
+</div>
+
+<p>We can easily simulate this system using computers, but what can we do analytically? Each particle collides with numerous other particles. Solving the three-body problem is already a significant challenge, yet here we have hundreds of particles. This is where statistical mechanics, specifically non-equilibrium statistical mechanics, becomes essential.</p>
+<p>Below is an illustration of Brownian motion:</p>
+<div class="media-container">
+    <img src="images/brownian.gif" style="width:40%;">
+    <div class="caption">
+        Brownian motion is a bombardment of brownian particle (blue) by the particles around it (green).
+    </div>
+</div>
+
+<p>The blue particle interacts with all other particles. The <strong>trick</strong> is to remove all other particles and introduce two terms into the equation of motion of the blue particle: friction force ($-\gamma v $) and stochastic force ($ \xi $):</p>
+
+$$ m \frac{\rm d}{ {\rm d} t} v=-\gamma v+\sqrt{2 D} \xi(t) $$
+
+<p>$\gamma$ and $D$ are not just arbitrary, they are closely linked by  <a href='https://en.wikipedia.org/wiki/Einstein_relation_(kinetic_theory)'>Einstein relation</a></p>
+<p>where $m$ is the mass of the Brownian particle, $v$ is the velocity, and $D$ is the diffusion coefficient. This is the famous <a href='https://en.wikipedia.org/wiki/Langevin_equation'>Langevin equation</a>, which models the collisions with other particles through friction and stochastic forces</p>
+<p>Langevin equation is a special type of equation: it includes a random function $\xi$, making its solutions — velocity  $v$ — random functions as well. This is a classic example of a Stochastic Differential Equation (SDE).</p>
+<p>By using the Langevin equation, the complex dynamics of a many-body system are effectively reduced to solving an SDE. The Langevin equation accurately describes a wide range of phenomena in physics, particularly in Non-Equilibrium Statistical Mechanics. Essentially, the outcomes predicted by the Langevin equation are statistically equivalent to those of a system with precise interactions.</p>
+<p>This approach, however, does not apply directly to rotating systems. In my research, I have modified the Langevin equation to accurately describe rotating systems. This modified Langevin equation simplifies the calculations similarly to how the original equation simplifies Brownian motion analysis. I then validated this new equation through numerical simulations.</p>
+<p>With this new framework, we now have a general tool for studying rotating systems. I used it to address the initial question: What happens to rotation when symmetry is weakly broken? The mathematical answer to this question is another Stochastic Differential Equation (SDE) for the total angular momentum $L$ of the system:</p>
+
+$$ \frac{d}{d t} L=-\alpha L+\sqrt{2 D_1} \xi(t) $$
+
+<p>Here, $\alpha$ is the decay rate of angular momentum, and $D_1$ is the diffusion coefficient. Essentially, this equation describes the angular momentum undergoing a type of Brownian motion.</p>
+<p>Our findings reveal that, regardless of how the rotational symmetry is broken, the angular momentum decays at the rate $\alpha$ while also experiencing diffusion:</p>
+<div class="media-container">
+    <img src="images/stochastic-paths.png" style="width:80%;">
+    <div class="caption">
+        Wiggling lines are different independent realizations of the system.
+    </div>
+</div>
+
+<p>Statistical mechanics is a well-established field, but rotating systems often remain overlooked. The modified Langevin equation provides a powerful framework for studying these systems. By applying this equation, we can derive the stochastic rotational motion of systems when symmetry is broken, offering new insights into the fundamental principles governing rotational dynamics.</p>
+<p>For further details and in-depth insights, I encourage you to explore the full <a href='https://iopscience.iop.org/article/10.1088/1742-5468/ad3cce'>publication</a>, also openly available on <a href='http://arxiv.org/abs/2405.18660'>arXiv</a>.</p>
+
+
+
+</div>
