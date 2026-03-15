@@ -74,11 +74,16 @@ disable_sections = true
 <div class="container-fluid" style="margin-top: 2rem">
     <div class="justify-content-center row align-items-center profile-layout">
         <div class="col-md-4 col-lg-3 text-center mb-4 mb-md-0 profile-image">
-            <img alt="Profile Picture" class="object-fit-cover rounded-circle shadow" height="200" loading="eager" src="/Lenna.png" width="200">
+            <img alt="Profile Picture" class="object-fit-cover rounded-circle shadow" height="200" loading="eager" src="/Louvre.jpg" width="200">
         </div>
-        <div class="col-md-8 col-lg-9 profile-text">
-            <h1 class="fw-bold h1 mb-3">An advanced Hugo theme</h1>
-            <p class="lead mb-0">Paige is designed to put your content front and center, avoiding the typical clutter. The look is seamless and smooth, scalable and readable, portable and efficient. The layout is minimal and responsive, using verticality and white space to delineate and highlight each part of the page. The implementation is flexible and extensible. It's a versatile canvas that serves most needs.</p>
+        <div class="col-md-8 col-lg-9 profile-text", style="font-family:verdana">
+            <!-- <h1 class="fw-bold h1 mb-3 ">Gayane Chilingaryan</h1> -->
+            <!-- <p></p> -->
+            <p class="fw-bold lead mb-0"><b>Welcome to my Website!</b></p>
+            <p class="lead mb-0", style="font-family:verdana">I’m a Data Scientist passionate about turning data-driven research into impactful, scalable solutions. My work bridges the gap between theory and practice — combining rigorous experimentation with real-world implementation.
+            </p>
+            <p class="lead mb-0">Here, you’ll find an overview of my current projects, publications, and areas of exploration, including machine learning, applied AI, and computational systems. I also share thoughts on emerging technologies, research insights, and lessons learned from hands-on development.
+            </p>
         </div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 +++
 title = "CV"
-draft = true
+draft = false
 +++
 
 {{< cv >}}

@@ -1,14 +1,16 @@
 ---
-title: 'System-Bath Approach to Rotational Brownian Motion'
-date: 2025-09-13
+title: 'BartSmiles: Generative Masked Language Models for Molecular Representations'
+date: 2024-07-25
 weight: 1
 
-journal: https://arxiv.org/pdf/2507.03202
-arxiv: https://arxiv.org/abs/2507.03202
-pdf: https://arxiv.org/pdf/2507.03202
+journal: https://doi.org/10.1021/acs.jcim.4c00512
+arxiv: https://arxiv.org/abs/2211.16349
+pdf: https://arxiv.org/pdf/2211.16349
+github: https://github.com/YerevaNN/BARTSmiles.git
+model: https://huggingface.co/gayane/BARTSmiles
 
-featured: images/bath-visualisation.svg
+featured: images/ames.svg
 
 intro: |
-    Rotational equilibrated systems are widespread, but relatively little attention has been devoted to studying them from the first principles of statistical mechanics. Here we bridge this gap, as we look at a Brownian particle coupled with a rotational thermal bath modeled via Caldeira-Leggett oscillators. We show that the Langevin equation that describes the dynamics of the Brownian particle contains (due to rotation) long-range correlated noise. In contrast to the usual situation of non-rotational equilibration, the rotational Gibbs distribution is recovered only for a weak coupling with the bath. However, the presence of a uniform magnetic field disrupts equilibrium, even under weak coupling conditions. In this context, we clarify the applicability of the Bohr-van Leeuwen theorem to classical systems in rotational equilibrium, as well as the concept of work done by a changing magnetic field. Additionally, we show that the Brownian particle under a rotationally symmetric potential reaches a stationary state that behaves as an effective equilibrium, characterized by a free energy. As a result, no work can be extracted via cyclic processes that respect the rotation symmetry. However, if the external potential exhibits asymmetry, then work extraction via slow cyclic processes is possible. This is illustrated by a general scenario, involving a slow rotation of a non-rotation-symmetric potential.
+    We discover a robust self-supervised strategy tailored towards molecular representations for generative masked language models through a series of tailored, in-depth ablations. Using this pre-training strategy, we train BartSmiles, a BART-like model with an order of magnitude more compute than previous self-supervised molecular representations. In-depth evaluations show that BartSmiles consistently outperforms other self-supervised representations across classification, regression, and generation tasks setting a new state-of-the-art on 10 tasks. We then quantitatively show that when applied to the molecular domain, the BART objective learns representations that implicitly encode our downstream tasks of interest. For example, by selecting seven neurons from a frozen BartSmiles, we can obtain a model having performance within two percentage points of the full fine-tuned model on task Clintox. Lastly, we show that standard attribution interpretability methods, when applied to BartSmiles, highlight certain substructures that chemists use to explain specific properties of molecules.
 ---

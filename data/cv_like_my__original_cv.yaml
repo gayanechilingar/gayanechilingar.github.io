@@ -22,9 +22,11 @@ experience:
             location: 'Berlin, Germany'
             description: |
                 * Image Generation with Diffusion based models,
-                * Interpretability,
-                * Improve customer experience,
+                * Visualising attention maps for interpretability,
+                * Improve customer experience by leveraging use-case specific rankers,
                 * Working on offline evaluation pipeline.
+
+
         -
             name: YerevaNN Research Lab
             logo: logo/ynn.png
@@ -34,47 +36,22 @@ experience:
             role: ML Researcher
             description: |
                 * Data collection and preparation: 
-                    * Collecting dataset,
-                    * Data pipeline preparation,
+                    * Collecting dataset by using REST APIs,
+                    * Data pipeline preparation for 1 billion textual datasets by using 54 CPUs,
                     * Data cleaning, balancing and analysing,
-                    * Complex and efficient SQL queries.
+                    * Complex and efficient SQL queries in large datasets.
                 * Model training: 
-                    * Pretraining and Fine-tuning LLMs,
-                    * Multi-GPU training and optimization,
+                    * Pretraining LLMs (Large Language Models) with 1 billion model parameters,
+                    * Multi-GPU training and optimization with up to 8 GPUs,
                     * Prompt Engineering, multiple-choice,
-                    * Classic ML; Random Forest, Boosting, clustering, SVM.
+                    * Fine-tuning with 9 state-of-the-art results in classification and regression tasks,
+                    * Classic ML; Random Forest, Boosting, clustering, SVM,
                 * Model selection and evaluation methods:
-                    * Hyperparameter tuning,
-                    * Domain Generalization and Robustness,
-                    * Performance metrics,
-                    * Explainable AI (XAI) and interpretability of ML models.
+                    * Cross-validation, hyperparameter tuning using grid search,
+                    * Domain Generalization and Robustness problems,
+                    * Performance metrics, including accuracy, precision/recall, F1-score, and ROC-AUC,
+                    * Explainable AI (XAI); Captum for interpretability of ML models,
                 * 2 publications in Q1 journals, 1 is preprint.
-        
-        # -
-        #     name: 'Max Plank Institute for Dynamics and Self-Organization'
-        #     logo: /logo/mpi-ds.svg
-        #     date: Jun 2021 -- Sep 2021
-        #     role: Research Internship
-        #     url: https://www.ds.mpg.de/lmp
-        #     location: 'Göttingen, Germany'
-        #     description: |
-        #         * Active Brownian motion, path integral approach.
-                    
-        #         supervisor [Dr. Benoît Mahault](https://www.ds.mpg.de/3763657/dr-benoit-mahault)
-        # -
-            # name: Alikhanyan National Laboratory  (YerPhi)
-            # date: Jun 2020 -- June 2022
-            # logo: /logo/aanl.png
-            # role: Researcher
-            # url: 'https://www.yerphi.am/?lang=en'
-            # location: 'Yerevan, Armenia'
-            # description: |
-            #     * Magnetobiology, Biological physics
-            #     * Non-equilibrium thermodynamics for rotating systems,
-            #     * 3 publications in Q1 journals.
-
-            #     supervisor [Prof. Armen Allahverdyan](https://sites.google.com/site/armenallahverdyan/)
-        
         - 
             name: Armenian Code Academy
             logo: logo/aca.png
@@ -117,20 +94,45 @@ education:
                 **First Class** from Tripos examinations (GPA 4.0/4.0 equivalent).
 
 
-awards:
-    enabled: true
-    list:
-        - |
-            **President's PhD scholarships**, *Imperial College London*, 2021, London, UK \
-            declined offer
-        - |
-            **Cambridge Trust scholarship**, 2018, Cambridge, UK \
-            **Trinity International Bursaries**, 2018, Cambridge, UK \
-            full scolarship for studying in Cambridge
-        - |
-            **International Olympiad of Informatics**, *participation*, 2016, Kazan, Russia
-        - |
-            **International Physics Olympiad**, *Bronze medal*, 2015, Mumbai, India
+# conferences:
+#     enabled: true
+#     list:
+#         - 
+#             name: Physical Biology Circle Meeting
+#             url: https://igc.idloom.events/circle-meeting-2024
+#             location: Lisbon, Portugal
+#             date: 2024
+#         -
+#             name: DPG Spring Meeting, Condensed Matter Section (SKM)
+#             url: https://berlin24.dpg-tagungen.de/
+#             location: Berlin, Germany
+#             date: 2024
+#         -
+#             name: Workshop on Signatures of Nonequilibrium Fluctuations in Life
+#             url: https://indico.ictp.it/event/10169
+#             location: Trieste, Italy
+#             date: 2023
+#         -
+#             name: DPG Spring Meeting, Condensed Matter Section (SKM)
+#             url: https://skm23.dpg-tagungen.de/
+#             location: Dresden, Germany
+#             date: 2023
+
+
+# awards:
+#     enabled: true
+#     list:
+#         - |
+#             **President's PhD scholarships**, *Imperial College London*, 2021, London, UK \
+#             declined offer
+#         - |
+#             **Cambridge Trust scholarship**, 2018, Cambridge, UK \
+#             **Trinity International Bursaries**, 2018, Cambridge, UK \
+#             full scolarship for studying in Cambridge
+#         - |
+#             **International Olympiad of Informatics**, *participation*, 2016, Kazan, Russia
+#         - |
+#             **International Physics Olympiad**, *Bronze medal*, 2015, Mumbai, India
 
 languages:
     enabled: true
@@ -144,9 +146,7 @@ languages:
         - 
             flag: /de.svg
             name: German (A2)
-        - 
-            flag: /ru.svg
-            name: Russian
+
 
 
 computerskils:

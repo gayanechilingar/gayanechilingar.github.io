@@ -14,7 +14,7 @@
 }
 
 
-.education p{
+  .education p{
     margin-bottom: 10px;
   }
 
@@ -64,17 +64,7 @@
 
 <div class="education">
 
-    {{/*  EDUCATION   */}}
-    {{ $educations := .Site.Data.cv.education }}
-    {{ if $educations.enabled }}
-    <div class="education">
-    <h2> Education</h2>
     
-    {{ range $key, $item := $educations.list }}
-      {{ partial "cvitem.html" . }}
-    {{ end }}
-    </div>
-    {{ end }}
     
     {{/*  EXPERIENCE   */}}
     {{ $experiences := .Site.Data.cv.experience }}
@@ -83,6 +73,18 @@
     <h2> Experience</h2>
     
     {{ range $key, $item := $experiences.list }}
+      {{ partial "cvitem.html" . }}
+    {{ end }}
+    </div>
+    {{ end }}
+
+    {{/*  EDUCATION   */}}
+    {{ $educations := .Site.Data.cv.education }}
+    {{ if $educations.enabled }}
+    <div class="education">
+    <h2> Education</h2>
+    
+    {{ range $key, $item := $educations.list }}
       {{ partial "cvitem.html" . }}
     {{ end }}
     </div>

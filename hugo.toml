@@ -12,7 +12,7 @@ title = "Gayane Chilingaryan"
 weight = 10
 
 [languages.en.params.paige.site]
-description = "Powerful, pliable pixel perfection"
+#description = "Powerful, pliable pixel perfection"
 
 [markup.goldmark.renderer]
 unsafe = true
