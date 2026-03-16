@@ -3,56 +3,124 @@
   margin-top: 0em;
   margin-bottom: 0em;
   border-bottom: 1.7px solid;
-  border-color:  #c8c8c8;
+  border-color: #c8c8c8;
   padding-bottom: 2px;
 }
+
 .cv a {
+  color: var(--bs-body-color);
   text-decoration: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.65);
+  transition: border-color 0.2s, color 0.2s;
 }
 .cv a:hover {
-  text-decoration: underline;
+  color: var(--bs-link-color);
+  border-bottom-color: var(--bs-link-color);
+  text-decoration: none;
 }
 
+.cv h2 a {
+  border-bottom: none;
+  color: var(--bs-link-color);
+}
 
-  .education p{
-    margin-bottom: 10px;
-  }
+.education p {
+  margin-bottom: 10px;
+}
+.experience li {
+  padding-bottom: 3px;
+}
+.experience ul {
+  padding-top: 3px;
+}
 
-  .experience li{
-    padding-bottom: 3px;
-  }
-  .experience ul{
-    padding-top: 3px;
-  }
+.language-container {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 20pt;
+}
+.language-container img {
+  height: 1.5vh;
+  width: auto;
+  margin: 0;
+}
+.language-container p {
+  margin-bottom: 0;
+  margin-left: 5pt;
+}
 
+.cv-summary {
+  margin-bottom: 1em;
+  font-style: italic;
+}
 
-  .language-container {
-    display: inline-flex;
-    align-items: center;
-    margin-right: 20pt;
-  }
-  .language-container img {
-      height: 1.5vh;
-      width: auto;
-      margin:0;
-  }
-  .language-container p {
-    margin-bottom: 0;
-    margin-left:5pt
-  } 
+.skills-section ul {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+.skills-section li {
+  padding-bottom: 2px;
+}
 
-  .cv-summary {
-    margin-bottom: 1em;
-    font-style: italic;
-  }
-
-  .skills-section ul {
-    margin-top: 0.3em;
-    margin-bottom: 0.3em;
-  }
-  .skills-section li {
-    padding-bottom: 2px;
-  }
+/* Publications */
+.publications ul {
+  list-style: none;
+  padding-left: 0;
+}
+.pub-item {
+  padding: 0.5rem 0;
+  border-bottom: 2px solid var(--bs-border-color);
+}
+.pub-item:last-child {
+  border-bottom: none;
+}
+.pub-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.pub-title a {
+  border-bottom: none !important;
+  color: var(--bs-body-color) !important;
+  transition: color 0.2s;
+}
+.pub-title a:hover {
+  color: var(--bs-link-color) !important;
+}
+.pub-meta {
+  font-size: 0.82rem;
+  color: var(--bs-secondary-color);
+  margin-top: 0.1rem;
+  line-height: 1.4;
+}
+.pub-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.1rem;
+}
+.pub-links {
+  display: flex;
+  gap: 0.3rem;
+}
+.pub-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--bs-secondary-color) !important;
+  background: var(--bs-tertiary-bg);
+  border: 1px solid var(--bs-border-color) !important;
+  border-radius: 20px;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.pub-links a:hover {
+  color: var(--bs-body-color) !important;
+  border-color: var(--bs-body-color) !important;
+  background: transparent;
+}
 </style>
 
 <div class="cv">
@@ -147,13 +215,19 @@
     
     {{/*  PUBLICATIONS   */}}
     {{ $publications := .Site.Data.publications }}
-    <div class="publications" style="max-width: 700px; margin-left: 0; margin-right: auto;">
+    <div class="publications">
       <h2> Publications </h2>
       <ul>
       {{ range $publications }}
-        <li>
-          <a href="{{.url}}" target="_blank">{{ .authors | markdownify}}, "{{ .title | markdownify}}." {{ .journal | markdownify}}.</a>
-          {{ if .arxiv }}<a href="{{.arxiv}}" target="_blank"> (Arxiv)</a>{{ end }}
+        <li class="pub-item">
+          <div class="pub-title"><a href="{{.url}}" target="_blank">{{ .title | markdownify}}</a></div>
+          <div class="pub-bottom">
+            <div class="pub-meta">{{ .authors | markdownify}} · <em>{{ .journal | markdownify}}</em></div>
+            <div class="pub-links">
+              <a href="{{.url}}" target="_blank">Paper</a>
+              {{ if .arxiv }}<a href="{{.arxiv}}" target="_blank">arXiv</a>{{ end }}
+            </div>
+          </div>
         </li>
       {{ end }}
       </ul>
