@@ -1,0 +1,239 @@
+---
+title: 'Small Molecule Optimization with Large Language Models'
+date: 2024-07-25
+weight: 1
+
+journal:
+arxiv: https://arxiv.org/abs/2407.18897
+pdf: https://arxiv.org/pdf/2407.18897
+github: https://github.com/yerevann/chemlactica
+model: https://huggingface.co/yerevann/chemlactica-1.3b
+
+featured: images/featured.png
+
+authors: P. Guevorguian, M. Bedrosian, T. Fahradyan, G. Chilingaryan, H. Khachatrian, A. Aghajanyan
+
+intro: |
+  We present Chemlactica and Chemma, large language models fine-tuned on 110 million molecules to generate and optimize drug candidates. Combined with a novel algorithm that merges genetic search with LLM generation, our approach achieves state-of-the-art results on molecular optimization benchmarks: an 8% improvement on PMO and up to 4× faster drug candidate generation in docking tasks. All models, data, and code are open source.
+---
+
+
+<h2>The Bottleneck in Drug Discovery</h2>
+
+<p>
+Designing a new drug is, at its core, a search problem. Out of a near-infinite space of possible molecules, researchers must find the handful that bind the right protein, are stable, non-toxic, synthesizable, and do all of these things at once. Traditional computational approaches rely on hand-crafted rules, graph-based representations, or narrow generative models that struggle to capture the full complexity of chemical space.
+</p>
+
+<p>
+Large language models have transformed fields from code generation to creative writing. Could the same idea work for molecules? We set out to test this hypothesis. The results exceeded our expectations.
+</p>
+
+<p>
+In our recent NeurIPS paper, we present <strong>Chemlactica</strong> and <strong>Chemma</strong>, a family of LLMs fine-tuned specifically for molecular science, together with a novel optimization algorithm that achieves state-of-the-art performance on the most widely used molecular optimization benchmarks. All models, data, and code are <a href="https://github.com/yerevann/chemlactica" target="_blank">publicly available</a>.
+</p>
+
+<h2>A 40-Billion-Token Molecular Corpus</h2>
+
+<p>
+The foundation of any good language model is its training data. Previous efforts trained on SMILES strings alone (plain text representations of molecular graphs). We went further. Starting from <strong>PubChem&rsquo;s full database of 110 million molecules</strong>, we computed a rich set of properties for each compound: drug-likeness (QED), synthesizability (SAS), molecular weight, polar surface area, partition coefficient, and more. We also integrated 4 billion molecular similarity pairs.
+</p>
+
+<p>
+The result is a structured JSONL corpus of approximately <strong>40 billion tokens</strong>. Each molecule is encoded with tagged properties, similar molecules, synonyms, and experimental data. Here is what a sample entry for aspirin looks like:
+</p>
+
+<div class="prompt-block">
+<span class="tag">[WEIGHT]</span><span class="val">180.16</span><span class="tag">[/WEIGHT]</span>
+<span class="tag">[TPSA]</span><span class="val">63.60</span><span class="tag">[/TPSA]</span>
+<span class="tag">[CLOGP]</span><span class="val">1.31</span><span class="tag">[/CLOGP]</span><br>
+<span class="tag">[START_SMILES]</span><span class="smiles">CC(=O)OC1=CC=CC=C1C(=O)O</span><span class="tag">[END_SMILES]</span><br>
+<span class="tag">[SAS]</span><span class="val">1.58</span><span class="tag">[/SAS]</span>
+<span class="tag">[QED]</span><span class="val">0.92</span><span class="tag">[/QED]</span><br>
+<span class="tag">[SIMILAR]</span><span class="smiles">O=C(Oc1ccccc1C(=O)O)c1ccccc1O</span> <span class="val">0.59</span><span class="tag">[/SIMILAR]</span><br>
+<span class="tag">[SYNONYM]</span>aspirin<span class="tag">[/SYNONYM]</span>
+</div>
+
+<p>
+This tag-based design is crucial: by randomizing the order of properties and the position of the SMILES string, the model learns to both <em>predict</em> properties from structure and <em>generate</em> molecules conditioned on desired properties.
+</p>
+
+<h2>The Models: Chemlactica &amp; Chemma</h2>
+
+<p>
+We trained three model variants through continued pretraining on our corpus:
+</p>
+
+<p>
+<strong>Chemlactica-125M</strong> and <strong>Chemlactica-1.3B</strong> build on Meta&rsquo;s Galactica, chosen for its existing exposure to scientific text and PubChem molecules. <strong>Chemma-2B</strong> builds on Google&rsquo;s Gemma, selected for its strong general-purpose performance despite no explicit molecular training. Training was conducted on NVIDIA A100 and H100 GPUs at Yerevan State University and on Nebius.ai cloud.
+</p>
+
+<p>
+After training, our models demonstrate two key capabilities. First, <strong>property prediction</strong>: given a molecule&rsquo;s SMILES, the model accurately predicts its QED, SAS, molecular weight, and other properties. Second, <strong>conditional generation</strong>: given a target property value, the model generates valid molecules that satisfy it.
+</p>
+
+<div class="callout">
+  <strong>Well-calibrated confidence:</strong> Our models&rsquo; predicted probabilities closely match actual correctness rates, a hallmark of high-quality pretraining. When the model says it is 80% confident, it is correct roughly 80% of the time.
+</div>
+
+<div class="two-col-figures">
+  <figure>
+    <img src="images/gemma-final-cal.svg" alt="Calibration of Chemma-2B">
+    <figcaption>Calibration of Chemma-2B across molecular properties. The near-diagonal alignment indicates reliable confidence estimates.</figcaption>
+  </figure>
+  <figure>
+    <img src="images/gal-final-cal.svg" alt="Calibration of Chemlactica-125M">
+    <figcaption>Calibration of Chemlactica-125M. Even the smallest model produces well-calibrated predictions.</figcaption>
+  </figure>
+</div>
+
+<h2>The Optimization Algorithm: Where It Gets Interesting</h2>
+
+<p>
+Training a language model that understands chemistry is valuable, but the real prize in drug discovery is <em>optimization</em>: finding the molecule that scores highest on some complex objective (a &ldquo;black-box oracle&rdquo;) with as few evaluations as possible. Lab experiments and quantum simulations are expensive; every oracle call counts.
+</p>
+
+<p>
+We designed a novel population-based algorithm that unifies three ideas:
+</p>
+
+<h3>1. LLM-Enhanced Genetic Algorithm</h3>
+<p>
+Instead of hand-coded crossover and mutation operators, we use the language model itself to generate offspring. Given a pool of high-performing molecules, we prompt the model with their SMILES strings (enclosed in <code>[SIMILAR]</code> tags) and ask it to generate a new, related molecule. The model has learned what &ldquo;molecular similarity&rdquo; means, so it produces chemically meaningful variations rather than random perturbations.
+</p>
+
+<h3>2. Explicit Oracle Modeling</h3>
+<p>
+When the optimization stalls, we fine-tune the language model on the best molecules discovered so far, together with their oracle scores. This teaches the model the relationship between structure and reward, enabling increasingly targeted generation in subsequent rounds. Think of it as the model &ldquo;learning on the job.&rdquo;
+</p>
+
+<h3>3. Dynamic Prompt Construction</h3>
+<p>
+Each generation round, prompts are constructed by sampling molecules from the pool, assigning similarity targets, and optionally including oracle score targets above the current best. This steers the model toward generating molecules that are both novel and high-scoring.
+</p>
+
+<div class="separator">
+    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20">
+        <circle cx="10" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="40" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="70" cy="10" r="3.5" fill="var(--bs-border-color)"/>
+    </svg>
+</div>
+
+<h2>Results: State-of-the-Art on Every Benchmark</h2>
+
+<h3>Practical Molecular Optimization (PMO)</h3>
+
+<p>
+The PMO benchmark is the standard evaluation suite for molecular optimization, consisting of 23 diverse tasks with a strict budget of 10,000 oracle calls each. The metric is the area under the curve (AUC) of the top-10 average property value over the optimization trajectory.
+</p>
+
+<table class="results-table">
+  <thead>
+    <tr>
+      <th>Method</th>
+      <th>Sum of 23 Tasks (AUC Top-10)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>REINVENT</td><td>14.196</td></tr>
+    <tr><td>Augmented Memory</td><td>15.002</td></tr>
+    <tr><td>Genetic-guided GFlowNets</td><td>16.213</td></tr>
+    <tr><td>Chemlactica-125M (ours)</td><td>17.170</td></tr>
+    <tr><td>Chemlactica-1.3B (ours)</td><td>17.284</td></tr>
+    <tr><td class="best">Chemma-2B (ours)</td><td class="best">17.534</td></tr>
+  </tbody>
+</table>
+
+<p>
+Our smallest model, Chemlactica-125M, already surpasses the previous state-of-the-art by a <strong>6% margin</strong>. Scaling up to Chemma-2B yields a total <strong>8% improvement</strong> over Genetic-guided GFlowNets. Importantly, these gains are consistent: our models lead or match on the vast majority of individual tasks.
+</p>
+
+<figure>
+  <img src="images/Chemma-2B-sitagliptin_mpo.svg" alt="Optimization trajectory on sitagliptin_mpo">
+  <figcaption>Optimization trajectory of Chemma-2B on the sitagliptin_mpo task across multiple seeds. The model steadily improves molecule quality within the 10,000-call budget.</figcaption>
+</figure>
+
+<h3>Drug Discovery with Protein-Ligand Docking</h3>
+
+<p>
+We went beyond synthetic benchmarks by applying our method to <strong>real drug discovery targets</strong>: DRD2, AChE, and MK2 protein kinase. Using AutoDock-GPU as the oracle, we measured how quickly each method discovers molecules with high predicted binding affinity.
+</p>
+
+<p>
+Chemma-2B and Chemlactica-1.3B discover high-affinity candidates <strong>2&ndash;4&times; faster</strong> than the best existing methods. The generated molecules are structurally diverse, and many possess drug-like properties (high QED, low SAS).
+</p>
+
+<figure class="wide-figure">
+  <img src="images/drd2_molecule_grid.svg" alt="Molecules generated during DRD2 docking optimization">
+  <figcaption>Molecules generated during the DRD2 docking optimization, from early diverse exploration (left) to high-reward drug candidates (right).</figcaption>
+</figure>
+
+<h3>Constrained Lead Optimization</h3>
+
+<p>
+In a separate evaluation, we tested the ability to optimize drug-likeness (QED &ge; 0.9) of 800 lead molecules while maintaining structural similarity (&ge; 0.4). Chemlactica-125M achieves a <strong>99.0% success rate</strong>, outperforming the previous best method (RetMol, 94.5%), while doing so with <strong>5&times; fewer evaluations</strong>.
+</p>
+
+<div class="separator">
+    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20">
+        <circle cx="10" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="40" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="70" cy="10" r="3.5" fill="var(--bs-border-color)"/>
+    </svg>
+</div>
+
+<h2>Why Does This Work So Well?</h2>
+
+<p>
+Three factors drive the strength of our approach. First, <strong>the training data is richer than anything previously used</strong>. By including computed properties, similarity relationships, and experimental data alongside SMILES strings, the model develops a much deeper understanding of molecular structure&ndash;property relationships than SMILES-only models.
+</p>
+
+<p>
+Second, <strong>the optimization algorithm adapts during the search</strong>. The dynamic fine-tuning mechanism lets the model learn from the specific oracle it is optimizing against, turning generic chemical knowledge into task-specific generation capability.
+</p>
+
+<p>
+Third, <strong>the LLM replaces brittle heuristics with learned chemical intuition</strong>. Traditional genetic algorithms rely on hand-designed crossover and mutation operators that don&rsquo;t understand chemistry. Our language model generates structurally coherent modifications because it has internalized the grammar of molecular structure from hundreds of millions of examples.
+</p>
+
+<h2>Adaptability: Few-Shot Property Prediction</h2>
+
+<p>
+Beyond optimization, we show that our models can be efficiently fine-tuned for new property prediction tasks not seen during pretraining. With just a few hundred training examples, Chemlactica achieves competitive performance on standard benchmarks including MoleculeNet (ESOL, FreeSolv, Lipophilicity) and six ADMET regression tasks. This demonstrates the models&rsquo; potential as general-purpose foundations for molecular machine learning.
+</p>
+
+<figure class="wide-figure">
+  <img src="images/Chemlactica-125M-no-tuning-per-task-mean-std.svg" alt="Optimization trajectories with and without dynamic fine-tuning">
+  <figcaption>Optimization trajectories with and without dynamic fine-tuning for Chemlactica-125M across PMO tasks. Fine-tuning provides the biggest lift on the hardest tasks.</figcaption>
+</figure>
+
+<h2>Open Science</h2>
+
+<p>
+We believe reproducibility and openness accelerate progress. We are publicly releasing everything.
+</p>
+
+<div class="callout">
+  <strong>Everything is open.</strong> The full 40B-token training corpus, all three pretrained models (Chemlactica-125M, Chemlactica-1.3B, Chemma-2B), the optimization algorithm, and all training recipes are available at <a href="https://github.com/yerevann/chemlactica" target="_blank">github.com/yerevann/chemlactica</a>.
+</div>
+
+<h2>What&rsquo;s Next</h2>
+
+<p>
+Our current models operate on SMILES strings only, without 3D conformational information or protein context. Extending the approach to 3D-aware representations and incorporating protein&ndash;ligand interaction data are natural next steps. We also see potential in scaling the optimization algorithm to multi-objective settings and integrating synthetic accessibility constraints directly into the generation loop.
+</p>
+
+<p>
+This work demonstrates that large language models, when trained on the right data and paired with the right optimization strategy, can become powerful tools for navigating chemical space. We hope our open-source contributions provide a strong foundation for the community to build on.
+</p>
+
+<div class="tags">
+  <span>Large Language Models</span>
+  <span>Drug Discovery</span>
+  <span>Molecular Optimization</span>
+  <span>Generative Chemistry</span>
+  <span>NeurIPS</span>
+  <span>Open Source</span>
+</div>
+
+<div class="citation">
+    <p>
+        This work was conducted at <a href="https://yerevann.com" target="_blank">YerevaNN</a> in collaboration with Yerevan State University and the American University of Armenia. We gratefully acknowledge compute support from Nebius.ai.
+    </p>
+</div>
