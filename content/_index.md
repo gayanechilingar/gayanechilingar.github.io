@@ -54,9 +54,46 @@ disable_pages = true
 disable_sections = true
 +++
 
-{{< paige/image alt="Landscape" breakpoints=true class="mt-3 object-fit-cover rounded-4 shadow" fetchpriority="high" height="20rem" loading="eager" process="webp" src="saryan.super.jpg" width="100%" >}}
+<div class="hero-image-wrapper mt-3 rounded-4 shadow">
+    <img alt="Martiros Saryan, Armenia, 1923" class="hero-image" fetchpriority="high" loading="eager" src="/saryan.super.jpg" >
+    <div class="hero-image-overlay">
+        <span class="hero-image-caption">Martiros Saryan, "Armenia", 1923</span>
+    </div>
+</div>
 
 <style>
+.hero-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 20rem;
+}
+.hero-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.hero-image-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: linear-gradient(transparent 60%, rgba(0,0,0,0.5));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+.hero-image-wrapper:hover .hero-image-overlay {
+    opacity: 1;
+}
+.hero-image-caption {
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    letter-spacing: 0.02em;
+}
 @media (max-width: 767.98px) {
     .profile-layout .profile-image {
         order: 2;
