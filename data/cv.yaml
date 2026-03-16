@@ -3,7 +3,6 @@ expertise:
     enabled: true
     list:
         - '**Mathematics:** probability, stochastic processes, statistics, analysis, optimization,'
-        - '**Physics:** non-equilibrium statistical mechanics, biological physics, physical chemistry,'
         - '**Computer science:** machine learning, algorithms, data structures, molecular dynamics,'
         - '**Software engineering:** high performance/scientific computing, parallelization.'
 
@@ -21,10 +20,11 @@ experience:
             url: https://www.zalando.de
             location: 'Berlin, Germany'
             description: |
-                * Image Generation with Diffusion based models,
-                * Interpretability,
-                * Improve customer experience,
-                * Working on offline evaluation pipeline.
+                * Improved image generation quality by 25\% using diffusion-based models
+                * Enhanced model interpretability by visualizing attention maps
+                * Optimized ranking recommendation system, reducing experimental costs by 17\%
+                * Boosted customer experience by developing use-case-specific rankers
+                * Contributed to the development of an offline evaluation pipeline.
         -
             name: YerevaNN Research Lab
             logo: logo/ynn.png
@@ -116,7 +116,7 @@ education:
 
                 **First Class** from Tripos examinations (GPA 4.0/4.0 equivalent).
 
-awards:
+# awards:
     enabled: true
     list:
         - |

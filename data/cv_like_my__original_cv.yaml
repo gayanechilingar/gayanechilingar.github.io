@@ -94,7 +94,7 @@ education:
                 **First Class** from Tripos examinations (GPA 4.0/4.0 equivalent).
 
 
-# conferences:
+conferences:
 #     enabled: true
 #     list:
 #         - 
@@ -119,7 +119,7 @@ education:
 #             date: 2023
 
 
-# awards:
+awards:
 #     enabled: true
 #     list:
 #         - |
