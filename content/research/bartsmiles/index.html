@@ -1,0 +1,256 @@
+---
+title: 'BartSmiles: Generative Masked Language Models for Molecular Representations'
+date: 2024-07-25
+weight: 1
+
+journal: https://doi.org/10.1021/acs.jcim.4c00512
+arxiv: https://arxiv.org/abs/2211.16349
+pdf: https://arxiv.org/pdf/2211.16349
+github: https://github.com/YerevaNN/BARTSmiles.git
+model: https://huggingface.co/gayane/BARTSmiles
+
+featured: images/ames.svg
+
+intro: |
+    We discover a robust self-supervised strategy tailored towards molecular representations for generative masked language models through a series of tailored, in-depth ablations. Using this pre-training strategy, we train BartSmiles, a BART-like model with an order of magnitude more compute than previous self-supervised molecular representations. In-depth evaluations show that BartSmiles consistently outperforms other self-supervised representations across classification, regression, and generation tasks setting a new state-of-the-art on 10 tasks. We then quantitatively show that when applied to the molecular domain, the BART objective learns representations that implicitly encode our downstream tasks of interest. For example, by selecting seven neurons from a frozen BartSmiles, we can obtain a model having performance within two percentage points of the full fine-tuned model on task Clintox. Lastly, we show that standard attribution interpretability methods, when applied to BartSmiles, highlight certain substructures that chemists use to explain specific properties of molecules.
+---
+
+<style>
+  .bartsmiles-article {
+    line-height: 1.8;
+    font-size: 1.1rem;
+  }
+
+  .bartsmiles-article p {
+    margin-bottom: 24px;
+  }
+
+  .bartsmiles-article h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  .bartsmiles-article figure {
+    margin: 36px 0;
+    text-align: center;
+  }
+
+  .bartsmiles-article figure img {
+    max-width: 100%;
+    border-radius: 4px;
+    background: #fff;
+    padding: 8px;
+  }
+
+  .bartsmiles-article figcaption {
+    font-size: 0.85rem;
+    color: var(--bs-secondary-color);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .bartsmiles-article .wide-figure {
+    margin-left: -40px;
+    margin-right: -40px;
+  }
+
+  .bartsmiles-article code {
+    font-size: 0.85em;
+    background: var(--bs-tertiary-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .bartsmiles-article .highlight-box {
+    background: var(--bs-tertiary-bg);
+    border-left: 4px solid #2ea043;
+    padding: 24px 28px;
+    margin: 36px 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 1rem;
+  }
+
+  .bartsmiles-article .results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 32px 0;
+  }
+
+  .bartsmiles-article .result-card {
+    background: var(--bs-tertiary-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .bartsmiles-article .result-card .metric {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2ea043;
+  }
+
+  .bartsmiles-article .result-card .label {
+    font-size: 0.85rem;
+    color: var(--bs-secondary-color);
+    margin-top: 4px;
+  }
+
+  .bartsmiles-article .two-col-figures {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 36px 0;
+  }
+
+  .bartsmiles-article .two-col-figures figure {
+    margin: 0;
+  }
+
+  .bartsmiles-article .tags-footer {
+    font-size: 0.85rem;
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--bs-border-color);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .bartsmiles-article .tags-footer span {
+    background: var(--bs-tertiary-bg);
+    padding: 6px 16px;
+    border-radius: 20px;
+    color: var(--bs-secondary-color);
+  }
+
+  @media (max-width: 880px) {
+    .bartsmiles-article .wide-figure { margin-left: 0; margin-right: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .bartsmiles-article { font-size: 1rem; }
+    .bartsmiles-article .results-grid,
+    .bartsmiles-article .two-col-figures { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="bartsmiles-article">
+
+<p>Self-supervised pre-training has transformed NLP, vision, and speech. Yet molecular machine learning — a field with massive implications for drug discovery, toxicology, and materials science — has largely been left behind in terms of scale. Most pre-trained molecular models train on 10M molecules or fewer, using encoder-only architectures borrowed from BERT.</p>
+
+<p>BARTSmiles changes this. We pre-trained a BART-Large encoder-decoder on <strong>1.7 billion unique molecules</strong> from the ZINC20 dataset using <strong>1,024 A100 GPUs</strong> — an order of magnitude more compute than any prior molecular representation. The result is a model that sets new state-of-the-art on 11 downstream tasks spanning property prediction, chemical reaction prediction, and retrosynthesis.</p>
+
+<p>But the numbers are only half the story. What surprised us most was what the model learned <em>implicitly</em> during pre-training.</p>
+
+<figure class="wide-figure">
+  <img src="images/cycle.svg" alt="BARTSmiles overview">
+  <figcaption>BARTSmiles performance across classification, regression, and generation tasks vs. prior state-of-the-art.</figcaption>
+</figure>
+
+<h2>Why BART, and Why This Scale?</h2>
+
+<p>Molecules are commonly represented as SMILES strings — a text-like notation where atoms, bonds, and rings are encoded as characters. This makes them natural candidates for language model pre-training. Prior work like ChemBERTa and SMILES-BERT used encoder-only (BERT-style) architectures, which limits them to classification and regression. By choosing BART's denoising encoder-decoder architecture, BARTSmiles can handle <em>generative</em> tasks too — predicting reaction products or working backward to identify starting materials.</p>
+
+<p>We arrived at our final pre-training recipe through careful ablations, not just scaling. Two decisions proved critical:</p>
+
+<figure>
+  <img src="images/ablation.svg" alt="Pre-training ablation results">
+  <figcaption>Each pre-training decision and its absolute gain on our ablation benchmark (average AUC-ROC over three datasets).</figcaption>
+</figure>
+
+<p><strong>Learned tokenization matters.</strong> Instead of hand-crafted chemical tokenization rules (splitting at each atom/bond symbol), we trained a SentencePiece unigram tokenizer. This yielded shorter sequences — more efficient training — and a 2.2-point AUC-ROC improvement over custom tokenization. The model learns sub-molecular "words" that are more expressive than character-level atoms.</p>
+
+<p><strong>Standard BART masking is suboptimal for chemistry.</strong> The default 30% mask token budget from the original BART paper underperforms. Through ablation, we found 20% works better, and — perhaps surprisingly — randomizing tokens (a staple of BART's denoising) actually hurts performance in the molecular domain. Chemistry has less redundancy than natural language; corrupting tokens beyond masking confuses more than it helps.</p>
+
+<h2>State-of-the-Art Across the Board</h2>
+
+<p>We evaluated BARTSmiles on 10 MoleculeNet benchmarks, 2 toxicology datasets, and 2 generative tasks. The highlights:</p>
+
+<div class="results-grid">
+  <div class="result-card">
+    <div class="metric">0.997</div>
+    <div class="label">AUC-ROC on ClinTox (clinical trial toxicity)</div>
+  </div>
+  <div class="result-card">
+    <div class="metric">0.095</div>
+    <div class="label">RMSE on ESOL (solubility) — prev. best was 0.279</div>
+  </div>
+  <div class="result-card">
+    <div class="metric">55.6%</div>
+    <div class="label">Top-1 accuracy on retrosynthesis (USPTO-50k)</div>
+  </div>
+  <div class="result-card">
+    <div class="metric">11</div>
+    <div class="label">New SOTA results across all task types</div>
+  </div>
+</div>
+
+<p>On <strong>regression</strong>, BARTSmiles dominates all three MoleculeNet tasks — reducing RMSE on ESOL from 0.279 to 0.095, on FreeSolv from 0.231 to 0.114, and on Lipophilicity from 0.529 to 0.292. These aren't incremental gains; they're 2–3× improvements over the previous best (MolFormer-XL).</p>
+
+<p>On <strong>generative tasks</strong>, our sample-and-rerank strategy (128 samples reranked by perplexity) achieves 55.6% Top-1 on retrosynthesis, beating all baselines. On chemical reaction prediction, BARTSmiles outperforms the Molecular Transformer across every USPTO subset.</p>
+
+<h2>The "Sentiment Neuron" — But for Molecules</h2>
+
+<p>This is where things get fascinating. Inspired by the famous OpenAI "sentiment neuron" discovery in language models, we asked: does BARTSmiles learn individual neurons that encode chemically meaningful properties, without ever seeing labels?</p>
+
+<figure>
+  <img src="images/sentiment.svg" alt="Sentiment neuron analysis">
+  <figcaption>AUC-ROC vs. number of frozen BARTSmiles neurons selected by L1-regularized logistic regression. Dashed lines show full fine-tuning performance.</figcaption>
+</figure>
+
+<p>The answer is a resounding yes. By extracting frozen representations and training L1-regularized logistic regression, we found that <strong>just 7 neurons</strong> from the pre-trained model achieve 0.987 AUC-ROC on ClinTox — within 1% of the fully fine-tuned model. A <em>single</em> neuron reaches 0.77. The model has essentially learned clinical toxicity as a latent concept during unsupervised pre-training on molecular structures alone.</p>
+
+<div class="highlight-box">
+  By selecting just 7 neurons from a frozen BARTSmiles, we get performance within 1% of the fully fine-tuned model on ClinTox — suggesting the model implicitly encodes downstream tasks during pre-training.
+</div>
+
+<h2>The Model Sees What Chemists See</h2>
+
+<p>We applied Integrated Gradients attribution to fine-tuned BARTSmiles models and compared the highlighted substructures with <strong>structural alerts</strong> — hand-curated rules that chemists developed over decades to explain molecular toxicity.</p>
+
+<div class="two-col-figures">
+  <figure>
+    <img src="images/ames21.svg" alt="Compound #21 attribution">
+    <figcaption>Compound #21: The model highlights the nitro group (-NO₂), a known mutagenic structural alert.</figcaption>
+  </figure>
+  <figure>
+    <img src="images/ames38.svg" alt="Compound #38 attribution">
+    <figcaption>Compound #38: The model identifies the epoxy group, a well-known toxicity-linked substructure.</figcaption>
+  </figure>
+</div>
+
+<p>On the Ames mutagenicity dataset, BARTSmiles consistently highlights the exact atoms that domain experts flag as responsible for toxicity. Nitroaromatic compounds? The model zeroes in on the -NO₂ group. Epoxides? It finds the three-membered ring. This alignment with decades of expert knowledge emerges purely from pre-training on molecular strings and fine-tuning on labels — no graph structure, no 3D coordinates, no hand-crafted features.</p>
+
+<p>On the ESOL solubility task, the model assigns positive attributions to polar groups like hydroxyl (-OH) and carbonyl (C=O) — which chemists know increase water solubility — and negative attributions to long hydrocarbon chains, which decrease it.</p>
+
+<h2>What Scale Doesn't Solve (Yet)</h2>
+
+<p>BARTSmiles doesn't dominate everywhere. On three scaffold-split classification tasks (HIV, BACE, BBBP), results are mixed — though we show that inconsistent splitting conventions across papers make fair comparison nearly impossible. More interesting is what we found by computing Fréchet distances between datasets in BARTSmiles' representation space:</p>
+
+<figure>
+  <img src="images/frechet.svg" alt="Fréchet distances">
+  <figcaption>Fréchet distances between datasets in BARTSmiles' representation space. BBBP and SIDER are far from the pre-training distribution.</figcaption>
+</figure>
+
+<p>Datasets like BBBP and SIDER are far from ZINC20's distribution. This is a fundamental coverage problem: 1.7 billion commercially available compounds in ZINC don't fully represent the medicinal chemistry space. We also found that traditional molecular fingerprints (ECFP) carry complementary information — concatenating frozen BARTSmiles features with ECFP and running an SVM closed the gap on toxicology tasks. Pre-trained representations and classical cheminformatics aren't substitutes; they're complements.</p>
+
+<h2>The Takeaway</h2>
+
+<p>BARTSmiles demonstrates that the "scale + self-supervision" recipe that transformed NLP works for molecular ML too — but requires domain-specific tuning of the pre-training objective. The model doesn't just memorize; it develops an internal understanding of chemistry that aligns with expert knowledge.</p>
+
+<p>The pre-trained model and code are publicly available at <a href="https://github.com/YerevaNN/BARTSmiles/">github.com/YerevaNN/BARTSmiles</a>. We hope it serves as a strong foundation for computational chemistry research — and as evidence that the next breakthroughs in drug discovery may come from the unlikely marriage of denoising autoencoders and SMILES strings.</p>
+
+<div class="tags-footer">
+  <span>Machine Learning</span>
+  <span>Drug Discovery</span>
+  <span>Transformers</span>
+  <span>Computational Chemistry</span>
+  <span>Self-Supervised Learning</span>
+  <span>Cheminformatics</span>
+</div>
+
+</div>
