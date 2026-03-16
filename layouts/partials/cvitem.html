@@ -1,45 +1,38 @@
 <style>
-    .cvcontainer  p, .cvcontainer ul, .cvcontainer li  {
-        margin: 0px;
+    .cvcontainer p, .cvcontainer ul, .cvcontainer li {
+        margin: 0;
     }
-    /* .cvcontainer  p, .cvcontainer ul, .cvcontainer li  {
-        margin: 0px;
-    } */
-    .cvcontainer {display: flex;
+    .cvcontainer {
+        display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        margin: 0px;
-        margin-top: 10px;
-        margin-bottom: 15px;
-        text-shadow: 0px 0px 4px  var(--cv-shadow-color),0px 0px 4px  var(--cv-shadow-color),0px 0px 4px  var(--cv-shadow-color),0px 0px 4px  var(--cv-shadow-color);
-
+        margin: 10px 0 15px;
+        text-shadow: 0 0 4px var(--cv-shadow-color), 0 0 4px var(--cv-shadow-color), 0 0 4px var(--cv-shadow-color), 0 0 4px var(--cv-shadow-color);
+    }
+    .cvcontainer.has-logo {
+        min-height: calc(var(--tw-cv-logo-width) * 0.8);
     }
     .left-div {
         text-align: left;
-        margin-right: 5px; /* Add margin to separate the boxes */
+        margin-right: 5px;
     }
-
     .right-div {
         text-align: right;
-        margin-left: auto; /* Auto margin to push the box to the right side */
-        font-size: smaller; 
-
+        margin-left: auto;
+        font-size: smaller;
     }
     .third-div {
-        width: 90%; /* Set width to 90% */
-        margin-bottom: 0px;
+        width: 90%;
+        margin-bottom: 0;
         margin-left: 20px;
-        /*  font-size: smaller;  */
-        padding: 0px;
+        padding: 0;
     }
-
-    .third-div p{
+    .third-div p {
         margin-bottom: 2px;
     }
     #cvrole {
         font-style: italic;
     }
-
 
     .logo {
         position: absolute;
@@ -52,29 +45,42 @@
     .logo img {
         width: 80%;
         margin-right: auto;
-        margin-top:0;
-        object-fit: cover; /* Ensures the image covers the container */
-
+        margin-top: 0;
+        object-fit: cover;
     }
-
     @media (max-width: 650px) {
         .logo {
-            opacity: 0.4; 
-            left: calc( -0.5 * var(--tw-cv-logo-width));
+            opacity: 0.4;
+            left: calc(-0.5 * var(--tw-cv-logo-width));
             top: 5px;
-
         }
     }
+
+    .logo .logo-light { display: block; }
+    .logo .logo-dark  { display: none; }
+    @media (prefers-color-scheme: dark) {
+        .logo .logo-light { display: none; }
+        .logo .logo-dark  { display: block; }
+    }
+    [data-bs-theme="dark"] .logo .logo-light { display: none; }
+    [data-bs-theme="dark"] .logo .logo-dark  { display: block; }
+    [data-bs-theme="light"] .logo .logo-light { display: block; }
+    [data-bs-theme="light"] .logo .logo-dark  { display: none; }
 </style>
 
 {{ if not .hide }}
 
-<div class="cvcontainer">
-    {{ if and .logo true }}
+<div class="cvcontainer{{ if .logo }} has-logo{{ end }}">
+    {{ if .logo }}
     <div style="position: relative; width: 100%; height: 0">
     <div class="logo">
         {{if .url }}<a href="{{.url}}" target="_blank">{{end}}
+            {{ if .logo_dark }}
+            <img class="logo-light" src="{{ .logo }}" >
+            <img class="logo-dark"  src="{{ .logo_dark }}" >
+            {{ else }}
             <img src="{{ .logo }}" >
+            {{ end }}
         {{if .url }}</a>{{end}}
     </div>
     </div>

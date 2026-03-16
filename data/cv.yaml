@@ -1,164 +1,151 @@
 
-expertise:
+summary:
     enabled: true
-    list:
-        - '**Mathematics:** probability, stochastic processes, statistics, analysis, optimization,'
-        - '**Computer science:** machine learning, algorithms, data structures, molecular dynamics,'
-        - '**Software engineering:** high performance/scientific computing, parallelization.'
+    content: >
+        Experienced Data Scientist skilled in building innovative, data-driven solutions.
+        With work at Zalando and collaborations with Meta Research AI,
+        I bring proven expertise in developing impactful models and strategic insights.
 
-
+expertise:
+    enabled: false
 
 experience:
     enabled: true
     list:
-        -   
+        -
             hide: false
-            name: 'Zalando'
-            logo: logo/zalando.svg
-            date: June 2024 -- December 2024
-            role: 'Applied Science Internship'
-            url: https://www.zalando.de
-            location: 'Berlin, Germany'
+            name: Maternity Leave
+            date: "2025"
+            role: ""
+            location: Dresden, Germany
             description: |
-                * Improved image generation quality by 25\% using diffusion-based models
+                * Learning German from A1.1 to A2.2
+                * Small self-study ML projects to keep skills sharp
+                * Recovery
+            logo: logo/pacifier.png
+        -
+            hide: false
+            name: Zalando
+            logo: logo/zalando.svg
+            date: "2024"
+            role: Applied Scientist, Intern
+            url: https://engineering.zalando.com/tags/zalando-research.html
+            location: Berlin, Germany
+            description: |
+                * Improved image generation quality by 25% using diffusion-based models
                 * Enhanced model interpretability by visualizing attention maps
-                * Optimized ranking recommendation system, reducing experimental costs by 17\%
+                * Optimized ranking recommendation system, reducing experimental costs by 17%
                 * Boosted customer experience by developing use-case-specific rankers
-                * Contributed to the development of an offline evaluation pipeline.
+                * Contributed to the development of an offline evaluation pipeline
         -
             name: YerevaNN Research Lab
-            logo: logo/ynn.png
             url: https://yerevann.com/
-            date: November 2021 -- March 2024
+            logo: logo/yerevann.svg
+            date: 2021 -- 2024
             location: Yerevan, Armenia
-            role: ML Researcher
+            role: Machine Learning Researcher
             description: |
-                * Data collection and preparation: 
-                    * Collecting dataset,
-                    * Data pipeline preparation,
-                    * Data cleaning, balancing and analysing,
-                    * Complex and efficient SQL queries.
-                * Model training: 
-                    * Pretraining and Fine-tuning LLMs,
-                    * Multi-GPU training and optimization,
-                    * Prompt Engineering, multiple-choice,
-                    * Classic ML; Random Forest, Boosting, clustering, SVM.
-                * Model selection and evaluation methods:
-                    * Hyperparameter tuning,
-                    * Domain Generalization and Robustness,
-                    * Performance metrics,
-                    * Explainable AI (XAI) and interpretability of ML models.
-                * 2 publications in Q1 journals, 1 is preprint.
-        
-        # -
-        #     name: 'Max Plank Institute for Dynamics and Self-Organization'
-        #     logo: /logo/mpi-ds.svg
-        #     date: Jun 2021 -- Sep 2021
-        #     role: Research Internship
-        #     url: https://www.ds.mpg.de/lmp
-        #     location: 'Göttingen, Germany'
-        #     description: |
-        #         * Active Brownian motion, path integral approach.
-                    
-        #         supervisor [Dr. Benoît Mahault](https://www.ds.mpg.de/3763657/dr-benoit-mahault)
-        # -
-            # name: Alikhanyan National Laboratory  (YerPhi)
-            # date: Jun 2020 -- June 2022
-            # logo: /logo/aanl.png
-            # role: Researcher
-            # url: 'https://www.yerphi.am/?lang=en'
-            # location: 'Yerevan, Armenia'
-            # description: |
-            #     * Magnetobiology, Biological physics
-            #     * Non-equilibrium thermodynamics for rotating systems,
-            #     * 3 publications in Q1 journals.
-
-            #     supervisor [Prof. Armen Allahverdyan](https://sites.google.com/site/armenallahverdyan/)
-        
-        - 
-            name: Armenian Code Academy
-            logo: logo/aca.png
+                * Three academic publications with 80+ citations and 10k+ model downloads
+                * [BARTSmiles: State-of-the-Art Chemical Language Model](https://pubs.acs.org/doi/10.1021/acs.jcim.4c00512?goto=supporting-info)
+                    * Developed transformer-based model on 1.7B molecules
+                    * Accelerated chemical property prediction to reduce experimental cost and time
+                    * Applied self-supervised language-modeling objectives to learn molecular representations
+                    * Achieved state-of-the-art results on 8 classification, regression, and generative benchmarks
+                    * Performed interpretability analyses showing the model learns expert-aligned chemical substructures
+                    * Collaborated with Meta Research AI
+                * Large-scale dataset construction by scanning academic papers
+                    * Applied BioBERT text mining to extract experimental results from 20,000 PubMed abstracts
+                    * Developed and evaluated multiple QSAR models
+        -
+            name: Krisp
+            url: https://krisp.ai/
+            logo: logo/krisp.svg
+            logo_dark: logo/krisp_dark.svg
+            date: "2021"
             location: Yerevan, Armenia
-            role: Machine Learning Internship
-            date: December 2020 -- May 2021
+            role: Machine Learning Engineer, Intern
             description: |
-                Classical ML, NLP, Image Processing,
-                Bayesian inference, probabilistic graphical models,
-                reinforcement learning.
-
+                * Emotion and Voice Conversion with Cycle-GAN on nonparallel audio dataset
+        -
+            name: SoloLearn
+            url: https://www.sololearn.com
+            logo: logo/sololearn.png
+            date: "2020"
+            location: Yerevan, Armenia
+            role: Data Scientist, Intern
+            description: |
+                * Data analysis using Python or Excel, by using advanced SQL queries
+                * Evaluating by using A/B testing for understanding users' behaviour and helping the product team
 
 education:
     enabled: true
     list:
         master:
-            name: Institute for Informatics and Automation Problems
+            name: Institute for Informatics and Automation Problems (IIAP)
             role: Master's degree, Computer Science
-            date: Sep 2019 -- May 2021
+            date: 2019 -- 2021
             location: Yerevan, Armenia
-            logo: logo/iiap-nas-ra.jpg
-            url: https://iiap.sci.am
-            description: |
-                Probability, Information theory and Statistics, Coding and Signal Processing.
- 
-                **Distinction** from Part III exams (GPA 4.0/4.0 equivalent).
-
+            url: https://iiap.sci.am/
+            logo: logo/iiap-blue.png
+            logo_dark: logo/iiap-white.png
         undergrad:
-            name: Yerevan State University
+            name: Yerevan State University (YSU)
             role: Bachelor's degree, Mathematics
-            date:  Sep 2015 --  May 2019
-            location: Yerevan Armenia
-            logo: logo/ysu.jpeg
-            url: https://www.ysu.am/en/faculty/516/educational-program-297
-            description: |
-                *Major*: Theoretical physics,
+            date: 2015 -- 2019
+            location: Yerevan, Armenia
+            url: https://ysu.am/en/
+            logo: logo/ysu-logo-blue.svg
+            logo_dark: logo/ysu-logo-white.svg
 
-                *Minor*: Mathematics, Physical Chemistry, Biology of Cells,
-
-                **First Class** from Tripos examinations (GPA 4.0/4.0 equivalent).
-
-# awards:
+skills:
     enabled: true
     list:
-        - |
-            **President's PhD scholarships**, *Imperial College London*, 2021, London, UK \
-            declined offer
-        - |
-            **Cambridge Trust scholarship**, 2018, Cambridge, UK \
-            **Trinity International Bursaries**, 2018, Cambridge, UK \
-            full scolarship for studying in Cambridge
-        - |
-            **International Olympiad of Informatics**, *participation*, 2016, Kazan, Russia
-        - |
-            **International Physics Olympiad**, *Bronze medal*, 2015, Mumbai, India
+        - category: "Machine Learning & AI"
+          items:
+              - Classical ML, NLP, LLM pretraining & fine-tuning, Explainable AI (xAI)
+              - Model evaluation, selection, and data analysis
+        - category: "Technical Skills"
+          items:
+              - "**Programming:** Python, PyTorch, HuggingFace, Fairseq, scikit-learn, NumPy, Pandas, seaborn"
+              - "**Software Development:** SQL, Bash, Git, Docker, REST APIs, Excel"
+              - "**Cloud & MLOps:** AWS, Databricks, multiprocessing, parallel programming, multi-GPU training"
+
+specialized_training:
+    enabled: true
+    list:
+        -
+            name: Armenian Code Academy
+            url: https://www.aca.am/en/courses/ml
+            date: 2020 -- 2021
+            location: Yerevan, Armenia
+            role: Machine Learning Engineer
+            description: |
+                Sentiment analysis over images with captions (meme data): classifying hateful memes using recurrent neural networks and LSTM.
+        -
+            name: TUMO Labs and Healthcare Innovation Center
+            url: https://tumolabs.am/en/digitization-of-healthcare
+            date: "2020"
+            location: Yerevan, Armenia
+            role: Digitization of Healthcare course
+            description: |
+                * Investigating the medical management system of Armenia
+                * Create a Java application for patients and medical staff
+
+awards:
+    enabled: false
 
 languages:
     enabled: true
     list:
-        - 
+        -
             flag: /gb.svg
-            name: English
+            name: English (Professional)
         -
             flag: /am.svg
-            name: Armenian 
-        - 
+            name: Armenian (Native)
+        -
             flag: /de.svg
-            name: German (A2)
-        - 
-            flag: /ru.svg
-            name: Russian
-
+            name: German (Beginner)
 
 computerskils:
-    enabled: true
-# \item \textbf{Technical Skills} 
-#     \begin{itemize}
-#         \item Python, PyTorch, HuggingFace, Fairseq, scikit-learn
-#         \item Matplotlib, seaborn, Pandas, NumPy, PowerBI, Excel
-#         \item SQL, AWS, databricks, MLOps, git, Bash, Docker, REST API
-    content: |
-        ###
-        Python, PyTorch, HuggingFace, Fairseq, scikit-learn
-
-        Matplotlib, seaborn, Pandas, NumPy, PowerBI, Excel
-
-        SQL, AWS, databricks, MLOps, git, Bash, Docker, REST API
+    enabled: false

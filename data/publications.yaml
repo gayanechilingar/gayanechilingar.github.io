@@ -1,21 +1,17 @@
-# \item \href{}{\textbf{Chilingaryan} et al.  ``BARTSmiles: Generative Masked Language Models for Molecular Representations.'' \textit{J. Chem. Inf. Model. 2024, 64, 15, 5832–5843}.}
-# \item \href{https://arxiv.org/abs/2407.18897}{Guevorguian, Philipp, et al. "Small Molecule Optimization with Large Language Models." arXiv preprint arXiv:2407.18897 (2024).}
-# \item\href{https://www.mdpi.com/2305-6304/11/9/785}
-# {{Khondkaryan} et al. ``Datasets Construction and Development of QSAR Models for Predicting Micronucleus In Vitro and In Vivo Assay Outcomes.'' \textit{Toxics (2023), 11, 785.}}
-
 -
-  content: |
-    [**Chilingaryan** et al.  ``BARTSmiles: Generative Masked Language Models for Molecular Representations.'' J. Chem. Inf. Model. 2024, 64, 15, 5832–5843.]
-  authors: '**Chilingaryan** et al'
-  title: 'BARTSmiles: Generative Masked Language Models for Molecular Representations.'
+  authors: '**Chilingaryan** et al.'
+  title: 'BARTSmiles: Generative Masked Language Models for Molecular Representations'
   journal: 'J. Chem. Inf. Model. 2024, 64, 15, 5832–5843'
   url: https://pubs.acs.org/doi/10.1021/acs.jcim.4c00512?goto=supporting-info
   arxiv: https://arxiv.org/abs/2211.16349
 -
-  content: |
-    [**Matevosyan Ashot**, and Armen E. Allahverdyan. "Lasting effects of static magnetic field on classical Brownian motion." *Physical Review E* 107.1 (2023): 014125.](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.107.014125)
-  authors: '**Ashot Matevosyan** and Armen E. Allahverdyan'
-  title: 'Lasting effects of static magnetic field on classical Brownian motion'
-  journal: '*Physical Review E* 107.1 (2023): 014125'
-  url: https://journals.aps.org/pre/abstract/10.1103/PhysRevE.107.014125
-  arxiv: https://arxiv.org/abs/2202.13160
+  authors: 'Guevorguian, ... **Chilingaryan**, ...'
+  title: 'Small Molecule Optimization with Large Language Models'
+  journal: 'arXiv preprint arXiv:2407.18897 (2024)'
+  url: https://arxiv.org/abs/2407.18897
+  arxiv: https://arxiv.org/abs/2407.18897
+-
+  authors: 'Khondkaryan, ... **Chilingaryan**, ...'
+  title: 'Datasets Construction and Development of QSAR Models for Predicting Micronucleus In Vitro and In Vivo Assay Outcomes'
+  journal: 'Toxics (2023), 11, 785'
+  url: https://www.mdpi.com/2305-6304/11/9/785

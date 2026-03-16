@@ -40,12 +40,33 @@
     margin-bottom: 0;
     margin-left:5pt
   } 
+
+  .cv-summary {
+    margin-bottom: 1em;
+    font-style: italic;
+  }
+
+  .skills-section ul {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+  }
+  .skills-section li {
+    padding-bottom: 2px;
+  }
 </style>
 
 <div class="cv">
 
     <h2 style="border-bottom:none; padding-bottom:10px"> <a href="/contact"><strong>Contact me</strong></a></h2>
-    
+
+{{/*  SUMMARY   */}}
+{{ $summary := .Site.Data.cv.summary }}
+{{ if $summary.enabled }}
+<div class="cv-summary">
+  <p>{{ $summary.content | markdownify }}</p>
+</div>
+{{ end }}
+
 {{/*  EXPERTIZE   */}}
 {{ $expertise := .Site.Data.cv.expertise }}
 {{ if $expertise.enabled }}
@@ -89,7 +110,40 @@
     {{ end }}
     </div>
     {{ end }}
+
+
+    {{/*  SKILLS   */}}
+    {{ $skills := .Site.Data.cv.skills }}
+    {{ if $skills.enabled }}
+    <div class="skills-section">
+      <h2> Skills </h2>
+      <ul>
+      {{ range $skills.list }}
+        <li><strong>{{ .category }}:</strong>
+          <ul>
+          {{ range .items }}
+            <li>{{ . | markdownify }}</li>
+          {{ end }}
+          </ul>
+        </li>
+      {{ end }}
+      </ul>
+    </div>
+    {{ end }}
+
+
+    {{/*  SPECIALIZED TRAINING   */}}
+    {{ $training := .Site.Data.cv.specialized_training }}
+    {{ if $training.enabled }}
+    <div class="experience">
+    <h2> Specialized Training </h2>
     
+    {{ range $key, $item := $training.list }}
+      {{ partial "cvitem.html" . }}
+    {{ end }}
+    </div>
+    {{ end }}
+
     
     {{/*  PUBLICATIONS   */}}
     {{ $publications := .Site.Data.publications }}
@@ -99,7 +153,7 @@
       {{ range $publications }}
         <li>
           <a href="{{.url}}" target="_blank">{{ .authors | markdownify}}, "{{ .title | markdownify}}." {{ .journal | markdownify}}.</a>
-          <a href="{{.arxiv}}" target="_blank"> (Arxiv)</a>
+          {{ if .arxiv }}<a href="{{.arxiv}}" target="_blank"> (Arxiv)</a>{{ end }}
         </li>
       {{ end }}
       </ul>
@@ -165,6 +219,5 @@
     </div>
     {{ end }}
     
-
 
 </div>
