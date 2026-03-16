@@ -1,0 +1,256 @@
+---
+title: 'Datasets Construction and Development of QSAR Models for Predicting Micronucleus In Vitro and In Vivo Assay Outcomes'
+date: 2024-07-25
+weight: 1
+
+journal: https://doi.org/10.3390/toxics11090785
+
+featured: images/feature-square.png
+
+authors: L. Khondkaryan, A. Tevosyan, H. Navasardyan, H. Khachatrian, G. Tadevosyan, L. Apresyan, G. Chilingaryan, Z. Navoyan, H. Stopper, N. Babayan
+
+
+intro: |
+  Genotoxicity testing is a regulatory requirement for every chemical entering the market, yet the micronucleus (MN) assay, one of the most widely used endpoints for detecting chromosomal damage, remains slow, expensive, and ethically costly. We built the largest publicly available datasets for both in vitro (981 chemicals) and in vivo (1,309 chemicals) MN assays by combining major public databases with BioBERT-powered mining of 35 million PubMed abstracts, with all records expert-reviewed for OECD guideline compliance. Chemotype enrichment analysis revealed that only 7 of 18 in vitro structural alerts carry meaningful predictive value for in vivo outcomes, highlighting the need for dedicated models per endpoint. We benchmarked five ML model families: Random Forest, SVM, XGBoost, Graph Convolutional Networks, and the BARTSmiles large language model, across multiple fingerprints and balancing strategies. An ensemble classifier achieved 78.4% and 73.0% accuracy on external in vitro and in vivo test sets respectively, with balanced sensitivity and specificity that improves on prior work.
+---
+
+
+    <p>
+        Every new pharmaceutical compound, every industrial chemical, every pesticide that enters the market must be tested for genotoxicity&mdash;the ability to damage DNA and chromosomes. Among the most important of these tests is the <strong>micronucleus (MN) assay</strong>, which detects whether a substance causes chromosomes to break or mis-segregate during cell division. First in cell cultures (in vitro), then in living animals (in vivo), the assay is a gatekeeper between a promising molecule and a regulatory green light.
+    </p>
+    <p>
+        The problem? These tests are slow, expensive, and consume animal lives. A single in vivo study can take weeks and cost tens of thousands of dollars. With <em>hundreds of thousands</em> of chemicals in commercial use and a growing regulatory backlog, the industry cannot test its way out of the bottleneck with wet-lab experiments alone.
+    </p>
+    <p>
+        Our team set out to change that. In a study published in <em>Toxics</em>, we built the largest publicly available datasets for both in vitro and in vivo micronucleus assays and trained an ensemble of machine learning models, spanning Random Forests to Graph Convolutional Networks to the BARTSmiles large language model, that can predict a chemical's MN outcome from its molecular structure alone.
+    </p>
+
+    <div class="separator">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20">
+            <circle cx="10" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="40" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="70" cy="10" r="3.5" fill="var(--bs-border-color)"/>
+        </svg>
+    </div>
+
+    <h2>The Data Problem: Why We Had to Build Our Own Datasets</h2>
+
+    <p>
+        Predictive toxicology lives and dies by its data. For the well-studied Ames mutagenicity test, curated datasets with thousands of compounds have driven model accuracy to roughly 80%&mdash;approaching the inter-laboratory reproducibility of the assay itself. But for the micronucleus endpoint, the picture was far bleaker. The largest public MN in vitro dataset contained only about 380 compounds. For in vivo, scattered repositories existed but had never been consolidated and cleaned to modern QSAR standards.
+    </p>
+    <p>
+        We took a two-pronged approach. First, we aggregated data from every major public database we could find: the ISSMIC database, the EURL ECVAM genotoxicity collection, CCRIS, and ChEMBL. Second, and this is where it gets interesting from an ML perspective, we deployed <strong>BioBERT</strong>, a BERT-based language model pre-trained on biomedical text, to mine 35 million PubMed abstracts for micronucleus assay results that had never been systematically compiled.
+    </p>
+
+    <div class="callout">
+        <strong>BioBERT pipeline:</strong> We downloaded ~20,000 relevant PubMed abstracts, manually annotated 2,000 of them for named entity recognition (chemical names, assay outcomes, cell lines, species), fine-tuned BioBERT on these annotations, and then ran the model over the remaining corpus. Domain experts reviewed every extracted record for compliance with OECD test guidelines.
+    </div>
+
+    <p>
+        The result: curated, de-duplicated, guideline-compliant datasets of <strong>981 chemicals for MN in vitro</strong> and <strong>1,309 chemicals for MN in vivo</strong>, nearly tripling and substantially extending the previously largest public collections, respectively.
+    </p>
+
+    <div class="results-grid">
+        <div class="result-card">
+            <div class="metric">981</div>
+            <div class="label">Chemicals: MN in vitro dataset</div>
+        </div>
+        <div class="result-card">
+            <div class="metric">1,309</div>
+            <div class="label">Chemicals: MN in vivo dataset</div>
+        </div>
+        <div class="result-card">
+            <div class="metric">~3&times;</div>
+            <div class="label">Increase over prior in vitro data</div>
+        </div>
+        <div class="result-card">
+            <div class="metric">35M</div>
+            <div class="label">PubMed abstracts mined with BioBERT</div>
+        </div>
+    </div>
+
+    <figure class="wide-figure">
+        <img src="images/toxics-11-00785-g001.png" alt="Distribution of physicochemical properties for MN in vitro and in vivo datasets">
+        <figcaption><strong>Figure 1.</strong> Distribution of molecular weight, logP, and aqueous solubility across the curated in vitro (a) and in vivo (b) datasets. Positive compounds in red, negatives in blue. Both datasets span a broad physicochemical space with no bias toward a single chemical class.</figcaption>
+    </figure>
+
+    <p>
+        To understand the chemical diversity of what we had assembled, we projected both datasets into PCA space alongside REACH-registered substances, FDA-approved drugs, pesticides, and biocides. The result (Figure 2) confirmed that our datasets cover a vast chemical landscape, critical for building models that generalise to new, unseen compounds rather than memorising a narrow training domain.
+    </p>
+
+    <figure class="wide-figure">
+        <img src="images/toxics-11-00785-g002.png" alt="PCA chemical space visualization">
+        <figcaption><strong>Figure 2.</strong> PCA visualization of the chemical space covered by our in vitro (a) and in vivo (b) datasets relative to REACH chemicals, FDA drugs, pesticides, and other regulatory inventories. The broad coverage suggests strong applicability domain for downstream models.</figcaption>
+    </figure>
+
+    <div class="separator">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20">
+            <circle cx="10" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="40" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="70" cy="10" r="3.5" fill="var(--bs-border-color)"/>
+        </svg>
+    </div>
+
+    <h2>Chemotype Enrichment: What Substructures Signal Danger?</h2>
+
+    <p>
+        Before reaching for gradient boosting, we wanted structural intuition. Using the ToxPrint chemotype system (729 curated chemical features developed for the FDA), we ran enrichment analysis to find substructures statistically over-represented among MN-positive compounds.
+    </p>
+    <p>
+        For MN in vitro, <strong>18 chemotypes</strong> were significantly enriched in the positive class: nitroso groups, steroids, alkyl halides, and polycyclic aromatic hydrocarbon fragments, among others. Compounds carrying two or more of these chemotypes were correctly classified as positives 95% of the time. For in vivo, 40 chemotypes were enriched, but the overlap between the two endpoints was surprisingly small: only four chemotypes appeared in both.
+    </p>
+
+    <figure class="wide-figure">
+        <img src="images/toxics-11-00785-g004.png" alt="Chemotype enrichment analysis comparing in vitro and in vivo">
+        <figcaption><strong>Figure 3.</strong> ToxPrint chemotypes enriched in MN in vitro positives (light orange) alongside their occurrence in MN in vivo (dark orange). The Positive Predictive Value (PPV) for in vivo is shown on the right. Red-boxed values indicate chemotypes with strong or moderate in vivo relevance.</figcaption>
+    </figure>
+
+    <p>
+        A key finding: of the 18 in vitro&ndash;enriched chemotypes, only <strong>7 showed meaningful predictive value for in vivo outcomes</strong> (PPV &ge; 50%). The sulfonic acid ester substructure stood out as the single chemotype with strong cross-endpoint relevance (PPV = 100%), consistent with its known DNA-alkylating mechanism. This asymmetry between in vitro and in vivo underscores why you cannot simply use an in vitro screen as a surrogate for in vivo prediction, and why dedicated in vivo models are needed.
+    </p>
+
+    <div class="separator">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20">
+            <circle cx="10" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="40" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="70" cy="10" r="3.5" fill="var(--bs-border-color)"/>
+        </svg>
+    </div>
+
+    <h2>The Modeling Pipeline: From Random Forests to BARTSmiles</h2>
+
+    <p>
+        We designed a systematic pipeline that explored a wide combinatorial space of representations, algorithms, and data-balancing strategies:
+    </p>
+
+    <figure>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 64" style="max-width:100%;height:auto;">
+            <rect x="0" y="8" width="160" height="48" rx="8" fill="var(--bs-secondary-color)"/>
+            <text x="80" y="38" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">Molecular Repr.</text>
+            <rect x="200" y="8" width="160" height="48" rx="8" fill="var(--bs-secondary-color)"/>
+            <text x="280" y="38" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">Data Balancing</text>
+            <rect x="400" y="8" width="160" height="48" rx="8" fill="var(--bs-secondary-color)"/>
+            <text x="480" y="38" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">ML Algorithm</text>
+            <rect x="600" y="8" width="160" height="48" rx="8" fill="var(--bs-secondary-color)"/>
+            <text x="680" y="38" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">Ensemble</text>
+            <polygon points="168,32 192,22 192,42" fill="var(--bs-border-color)"/>
+            <polygon points="368,32 392,22 392,42" fill="var(--bs-border-color)"/>
+            <polygon points="568,32 592,22 592,42" fill="var(--bs-border-color)"/>
+        </svg>
+    </figure>
+
+    <h3>Representations</h3>
+    <p>
+        Each compound was encoded in multiple ways: 208 RDKit molecular descriptors (after filtering for collinearity and low variance, reduced via Genetic Algorithm to 17 to 20 features), plus 12 types of molecular fingerprints including MACCS, Daylight, ToxPrint, and ECFP variants at different radii. For graph-based models, molecules were represented as atom-bond graphs directly; for BARTSmiles, the input was the raw SMILES string.
+    </p>
+
+    <h3>Handling Class Imbalance</h3>
+    <p>
+        Both datasets are heavily skewed (70% positive for in vitro, 68% negative for in vivo). We benchmarked two strategies: <strong>class weighting</strong> (adjusting the loss function) and <strong>SMOTE</strong> (synthesising minority-class samples in fingerprint space). The winner depended on the endpoint: SMOTE gave the best sensitivity/specificity balance for in vitro, while class weighting was superior for in vivo.
+    </p>
+
+    <figure class="wide-figure">
+        <img src="images/toxics-11-00785-g006.png" alt="Comparison of balancing strategies">
+        <figcaption><strong>Figure 4.</strong> Impact of data-balancing strategies on Random Forest model performance. SMOTE improves balance for in vitro (a); class weighting is more effective for in vivo (b). Without balancing, models tend to over-predict the majority class.</figcaption>
+    </figure>
+
+    <h3>Algorithms</h3>
+    <p>
+        We evaluated five model families:
+    </p>
+    <p>
+        <strong>Random Forest (RF)</strong>, <strong>Support Vector Machine (SVM)</strong>, and <strong>XGBoost (XGB)</strong>, the classical, descriptor/fingerprint-based workhorses of cheminformatics. <strong>Graph Convolutional Networks (GCN)</strong>, learning directly from molecular graphs and sidestepping hand-crafted features. And <strong>BARTSmiles</strong>, a BART-architecture language model pre-trained on SMILES, representing the frontier of self-supervised chemical representation learning (developed at <a href="https://github.com/YerevaNN/BARTSmiles/" target="_blank">YerevaNN</a>).
+    </p>
+    <p>
+        Every classical model was optimised via grid search inside 10-fold cross-validation; GCN and BARTSmiles used Butina scaffold splitting to reduce computational cost while respecting chemical similarity structure.
+    </p>
+
+    <div class="separator">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20">
+            <circle cx="10" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="40" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="70" cy="10" r="3.5" fill="var(--bs-border-color)"/>
+        </svg>
+    </div>
+
+    <h2>Results: How Well Can We Predict Genotoxicity?</h2>
+
+    <figure class="wide-figure">
+        <img src="images/toxics-11-00785-g008.png" alt="Model performance violin plots">
+        <figcaption><strong>Figure 5.</strong> Cross-validated AUC, specificity, and sensitivity for all model families on MN in vitro (a) and MN in vivo (b). Violin plots show the distribution across folds, revealing both central tendency and stability.</figcaption>
+    </figure>
+
+    <p>
+        Several patterns emerged from the cross-validation results:
+    </p>
+
+    <p>
+        For <strong>MN in vitro</strong>, the classical RF model with RDKit descriptors and SMOTE balancing delivered the strongest individual performance (AUC 0.77, sensitivity 0.81, specificity 0.64). BARTSmiles, notably, performed comparably despite receiving no hand-crafted features, only raw SMILES strings.
+    </p>
+    <p>
+        For <strong>MN in vivo</strong>, Graph Convolutional Networks took the lead among individual models (AUC 0.74, sensitivity 0.58, specificity 0.77). BARTSmiles struggled here, with sensitivity collapsing to 0.23, suggesting that the pre-training corpus may not capture the subtler biological factors governing in vivo chromosome damage.
+    </p>
+    <p>
+        The clear winner in both cases was the <strong>ensemble model</strong>, built by majority voting across the best individual classifiers:
+    </p>
+
+    <div class="results-grid">
+        <div class="result-card">
+            <div class="metric">78.4%</div>
+            <div class="label">Ensemble accuracy: MN in vitro (external test set)</div>
+        </div>
+        <div class="result-card">
+            <div class="metric">73.0%</div>
+            <div class="label">Ensemble accuracy: MN in vivo (external test set)</div>
+        </div>
+    </div>
+
+    <p>
+        Crucially, the ensemble maintained <em>balanced</em> predictive performance. Previous in vivo models often achieved headline accuracy by correctly predicting the majority class while missing most positives&mdash;a dangerous failure mode when the whole point is to catch genotoxic compounds. Our model achieved genuinely balanced sensitivity and specificity for the in vivo endpoint, a meaningful advance over prior work.
+    </p>
+
+    <div class="separator">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20">
+            <circle cx="10" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="40" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="70" cy="10" r="3.5" fill="var(--bs-border-color)"/>
+        </svg>
+    </div>
+
+    <h2>What This Means for the Field</h2>
+
+    <p>
+        <strong>For computational toxicologists and drug developers:</strong> these datasets and models offer an immediately useful screening tool. The in vitro model, with nearly 80% accuracy, can flag candidate molecules for closer experimental scrutiny early in the pipeline&mdash;before committing to expensive wet-lab assays. The in vivo model, while inherently harder, provides the most balanced public predictor to date for mouse micronucleus outcomes.
+    </p>
+    <p>
+        <strong>For ML researchers:</strong> this study is a case study in combining NLP-driven data curation (BioBERT for literature mining), classical cheminformatics (fingerprints, descriptor selection, SMOTE), and modern deep learning (GCN, BARTSmiles) into a single, coherent pipeline. The finding that BARTSmiles&mdash;a model pre-trained on millions of SMILES&mdash;matches traditional methods on one endpoint but fails on another is a reminder that self-supervised pre-training is not a silver bullet; task-specific data quality and biological complexity still matter enormously.
+    </p>
+    <p>
+        <strong>For regulators:</strong> as the ICH M7 guideline has already opened the door to in silico methods for mutagenicity assessment, the logical next step is extending computational acceptance to chromosomal damage endpoints. Studies like this one lay the groundwork by demonstrating that curated datasets of sufficient size and diversity can support predictive models that meet reasonable performance thresholds.
+    </p>
+
+    <div class="separator">
+        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="20" viewBox="0 0 80 20">
+            <circle cx="10" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="40" cy="10" r="3.5" fill="var(--bs-border-color)"/><circle cx="70" cy="10" r="3.5" fill="var(--bs-border-color)"/>
+        </svg>
+    </div>
+
+    <h2>Looking Ahead</h2>
+
+    <p>
+        Our datasets are publicly available as supplementary material, and BARTSmiles is open-source. We believe this work opens several avenues: expanding datasets with automated literature mining at scale, exploring transformer-based architectures fine-tuned specifically for genotoxicity, and integrating mechanistic knowledge (e.g., DNA-adduct formation pathways) into model architectures. The ultimate goal is a computational safety net that catches genotoxic chemicals before they ever enter a test tube&mdash;or an animal.
+    </p>
+
+    <div class="tags">
+        <span>QSAR</span>
+        <span>Genotoxicity</span>
+        <span>Micronucleus Assay</span>
+        <span>BioBERT</span>
+        <span>BARTSmiles</span>
+        <span>Graph Neural Networks</span>
+        <span>Ensemble Learning</span>
+        <span>Chemoinformatics</span>
+        <span>Computational Toxicology</span>
+    </div>
+
+<div class="citation">
+    <p>
+        Khondkaryan, L.; Tevosyan, A.; Navasardyan, H.; Khachatrian, H.; Tadevosyan, G.; Apresyan, L.; Chilingaryan, G.; Navoyan, Z.; Stopper, H.; Babayan, N.
+        <em>Datasets Construction and Development of QSAR Models for Predicting Micronucleus In Vitro and In Vivo Assay Outcomes.</em>
+        Toxics <strong>2023</strong>, 11, 785.
+        <a href="https://doi.org/10.3390/toxics11090785" target="_blank">https://doi.org/10.3390/toxics11090785</a>
+    </p>
+    <p>
+        Affiliations: Institute of Molecular Biology NAS RA &bull; Toxometris.ai &bull; YerevaNN &bull; Yerevan State University &bull; University of W&uuml;rzburg
+    </p>
+</div>
