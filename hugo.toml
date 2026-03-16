@@ -69,6 +69,26 @@ disable_series = true
 disable_summary = true
 disable_word_count = true
 
+[[languages.en.menu.main]]
+name = "Research"
+pageRef = "/research"
+weight = 10
+
+[[languages.en.menu.main]]
+name = "Gallery"
+pageRef = "/gallery"
+weight = 20
+
+[[languages.en.menu.main]]
+name = "CV"
+pageRef = "/cv"
+weight = 30
+
+[[languages.en.menu.main]]
+name = "Contact"
+pageRef = "/contact"
+weight = 40
+
 [taxonomies]
 author = "authors"
 category = "categories"

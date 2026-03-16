@@ -1,9 +1,96 @@
+/* ── Global layout ── */
+
 #paige-site,
-  #paige-page-content {
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
+#paige-page-content {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Site header ── */
+
+#paige-site-header {
+  position: relative;
+  z-index: 1000;
+  backdrop-filter: blur(14px) saturate(1.6);
+  -webkit-backdrop-filter: blur(14px) saturate(1.6);
+  background: rgba(var(--bs-body-bg-rgb, 33,37,41), 0.82);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.85rem 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+}
+
+.site-header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+#paige-site-title {
+  font-size: clamp(1.35rem, 1rem + 1.6vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+#paige-site-title a {
+  color: var(--bs-body-color);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+#paige-site-title a:hover {
+  opacity: 0.75;
+}
+
+#paige-site-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+#paige-site-menu li {
+  margin: 0;
+}
+
+#paige-site-menu a {
+  display: block;
+  padding: clamp(0.3rem, 0.2rem + 0.4vw, 0.5rem) clamp(0.65rem, 0.4rem + 0.7vw, 1.1rem);
+  font-size: clamp(1rem, 0.8rem + 1vw, 1.35rem);
+  font-weight: 500;
+  color: var(--bs-secondary-color, #a6adc8);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+
+#paige-site-menu a:hover {
+  color: var(--bs-body-color);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+#paige-site-menu a.active {
+  color: var(--bs-body-color);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 600px) {
+  .site-header-inner {
+    flex-direction: column;
+    gap: 0.6rem;
   }
+  #paige-site-menu ul {
+    gap: 0.15rem;
+  }
+}
 
 /* ── Research article common styles ── */
 
@@ -383,4 +470,32 @@
   #paige-site-copyright {
     text-align: center;
   }
+}
+
+/* ── Light-mode header overrides ── */
+
+@media (prefers-color-scheme: light) {
+  #paige-site-header {
+    background: rgba(255, 255, 255, 0.82);
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+  }
+  #paige-site-menu a:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  #paige-site-menu a.active {
+    background: rgba(0, 0, 0, 0.07);
+  }
+}
+
+[data-bs-theme="light"] #paige-site-header {
+  background: rgba(255, 255, 255, 0.82);
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-bs-theme="light"] #paige-site-menu a:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-bs-theme="light"] #paige-site-menu a.active {
+  background: rgba(0, 0, 0, 0.07);
 }

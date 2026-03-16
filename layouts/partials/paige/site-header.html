@@ -1,0 +1,45 @@
+{{ $page := . }}
+
+{{ $basePath := path.Clean (urls.Parse (relLangURL "")).Path }}
+{{ $title := site.Title | markdownify | and ($page.Param "paige.site.disable_title" | not) }}
+{{ $menu := $page.Param "paige.site.disable_menu" | not }}
+
+{{ if eq $basePath "/" }}
+    {{ $basePath = "" }}
+{{ end }}
+
+{{ $pagePath := strings.TrimPrefix $basePath $page.RelPermalink }}
+
+<header id="paige-site-header">
+    {{ partial "paige/func-include.html" (dict "name" "site-header-first%s.html" "page" $page) | safeHTML }}
+
+    <div class="site-header-inner">
+        {{ with $title }}
+            <div id="paige-site-title">
+                <a href="{{ relLangURL `` }}">{{ . }}</a>
+            </div>
+        {{ end }}
+
+        {{ if $menu }}
+            {{ with site.Menus.main }}
+                <nav aria-label="{{ i18n `paige_menu` }}" id="paige-site-menu">
+                    <ul>
+                        {{ range . }}
+                            {{ $menuPath := strings.TrimPrefix $basePath .URL }}
+                            {{ $home := and (eq $menuPath "/") (eq $page.Section "") }}
+                            {{ $menuMatch := and (ne $menuPath "/") (hasPrefix $pagePath $menuPath) }}
+                            {{ $section := and (ne $menuPath "/") (hasPrefix $menuPath (printf "/%s/" $page.Section)) }}
+                            {{ $active := or $home $menuMatch $section }}
+
+                            <li>
+                                <a {{ if $active }} aria-current="page" class="active" {{ end }} href="{{ .URL }}" {{ with partial "paige/func-target.html" (dict "page" $page "url" .URL) }} target="{{ . }}" {{ end }}>{{ .Name | markdownify }}</a>
+                            </li>
+                        {{ end }}
+                    </ul>
+                </nav>
+            {{ end }}
+        {{ end }}
+    </div>
+
+    {{ partial "paige/func-include.html" (dict "name" "site-header-last%s.html" "page" $page) | safeHTML }}
+</header>
