@@ -1,0 +1,17 @@
+<div class="contact-grid">
+  {{ range site.Data.social }}
+    <a href="{{ .url }}" class="contact-card" {{ if ne .icon "bi bi-envelope" }}target="_blank"{{ end }}>
+      <span class="contact-icon">
+        {{ if eq .icon "scholar" }}
+          <img class="contact-scholar-icon" src="/scholar.svg" alt="{{ .label }}">
+        {{ else }}
+          <i class="{{ .icon }}"></i>
+        {{ end }}
+      </span>
+      <span class="contact-details">
+        <span class="contact-label">{{ .label }}</span>
+        <span class="contact-value">{{ .value }}</span>
+      </span>
+    </a>
+  {{ end }}
+</div>

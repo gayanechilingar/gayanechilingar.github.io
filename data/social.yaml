@@ -1,0 +1,23 @@
+- label: Email
+  url: mailto:gayane.chilingar@gmail.com
+  icon: bi bi-envelope
+  value: gayane.chilingar@gmail.com
+  footer: false
+
+- label: Google Scholar
+  url: https://scholar.google.com/citations?user=IYegFzQAAAAJ&hl=en
+  icon: scholar
+  value: Gayane Chilingaryan
+  footer: true
+
+- label: LinkedIn
+  url: https://www.linkedin.com/in/gayane-chilingar
+  icon: bi bi-linkedin
+  value: gayane-chilingar
+  footer: true
+
+- label: GitHub
+  url: https://github.com/gayanechilingar
+  icon: bi bi-github
+  value: gayanechilingar
+  footer: true

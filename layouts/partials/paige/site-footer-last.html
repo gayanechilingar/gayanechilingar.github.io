@@ -1,0 +1,11 @@
+<nav class="footer-social-icons" aria-label="Social links">
+  {{ range where site.Data.social "footer" true }}
+    <a href="{{ .url }}" target="_blank" rel="noopener" aria-label="{{ .label }}">
+      {{ if eq .icon "scholar" }}
+        <img class="footer-scholar-icon" src="/scholar.svg" alt="{{ .label }}">
+      {{ else }}
+        <i class="{{ .icon }}"></i>
+      {{ end }}
+    </a>
+  {{ end }}
+</nav>
