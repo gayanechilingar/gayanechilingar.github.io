@@ -1,5 +1,9 @@
 +++
 draft = true
+
+[cascade]
+  draft = true
+
 authors = ["author-demo"]
 categories = ["customization", "paige"]
 description = "Demonstrations of customizations."
