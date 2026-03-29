@@ -1,0 +1,131 @@
+{{ define "main" }}
+{{ $page := . }}
+{{ $galleryData := site.Data.gallery }}
+
+<div id="paige-page">
+    <div id="gallery-page">
+        <div class="gallery-grid" id="gallery-grid">
+            {{ range $page.Resources.Match "images/*.jpg" }}
+            {{ $baseName := path.Base .Name }}
+            {{ $meta := index $galleryData $baseName }}
+            <div class="gallery-item"
+                 data-src="{{ .RelPermalink }}"
+                 data-description="{{ if $meta }}{{ $meta.description }}{{ end }}"
+                 data-location="{{ if $meta }}{{ $meta.location }}{{ end }}"
+                 data-date="{{ if $meta }}{{ $meta.date }}{{ end }}">
+                <img src="{{ .RelPermalink }}"
+                     alt="{{ if $meta }}{{ $meta.description }}{{ else }}Gallery image{{ end }}"
+                     loading="lazy">
+                {{ if $meta }}
+                <div class="gallery-overlay">
+                    {{ with $meta.description }}<p class="gallery-desc">{{ . }}</p>{{ end }}
+                    <div class="gallery-meta-row">
+                        {{ with $meta.location }}<span class="gallery-loc">{{ . }}</span>{{ end }}
+                        {{ with $meta.date }}<span class="gallery-date">{{ . }}</span>{{ end }}
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+            {{ end }}
+        </div>
+    </div>
+</div>
+
+<!-- Lightbox -->
+<div class="gallery-lightbox" id="gallery-lightbox" aria-modal="true" role="dialog" aria-label="Image viewer">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous">&#8249;</button>
+    <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next">&#8250;</button>
+    <div class="lightbox-stage">
+        <img id="lightbox-img" src="" alt="" draggable="false">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+</div>
+
+<script>
+(function () {
+    const grid = document.getElementById('gallery-grid');
+    const lightbox = document.getElementById('gallery-lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    const lbCaption = document.getElementById('lightbox-caption');
+    const lbClose = document.getElementById('lightbox-close');
+    const lbPrev = document.getElementById('lightbox-prev');
+    const lbNext = document.getElementById('lightbox-next');
+
+    let items = [];
+    let current = 0;
+
+    function buildItems() {
+        items = Array.from(grid.querySelectorAll('.gallery-item'));
+    }
+
+    function openLightbox(index) {
+        current = index;
+        showImage(current);
+        lightbox.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        lbClose.focus();
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+        lbImg.src = '';
+    }
+
+    function showImage(index) {
+        const item = items[index];
+        const src = item.dataset.src;
+        const desc = item.dataset.description;
+        const loc = item.dataset.location;
+        const date = item.dataset.date;
+
+        lbImg.classList.remove('loaded');
+        lbImg.src = src;
+        lbImg.alt = desc || 'Gallery image';
+        lbImg.onload = () => lbImg.classList.add('loaded');
+
+        let caption = '';
+        if (desc) caption += `<span class="lb-desc">${desc}</span>`;
+        const parts = [];
+        if (loc) parts.push(`<span class="lb-loc">${loc}</span>`);
+        if (date) parts.push(`<span class="lb-date">${date}</span>`);
+        if (parts.length) caption += `<span class="lb-meta">${parts.join('<span class="lb-sep">·</span>')}</span>`;
+        lbCaption.innerHTML = caption;
+        lbCaption.style.display = caption ? '' : 'none';
+
+        lbPrev.style.visibility = index > 0 ? 'visible' : 'hidden';
+        lbNext.style.visibility = index < items.length - 1 ? 'visible' : 'hidden';
+    }
+
+    function navigate(dir) {
+        const next = current + dir;
+        if (next >= 0 && next < items.length) {
+            current = next;
+            showImage(current);
+        }
+    }
+
+    buildItems();
+
+    items.forEach((item, i) => {
+        item.addEventListener('click', () => openLightbox(i));
+    });
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', () => navigate(-1));
+    lbNext.addEventListener('click', () => navigate(1));
+
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox || e.target.classList.contains('lightbox-stage')) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navigate(-1);
+        if (e.key === 'ArrowRight') navigate(1);
+    });
+})();
+</script>
+{{ end }}
