@@ -19,9 +19,10 @@ experience:
             role: ""
             location: Dresden, Germany
             description: |
-                * Learning German from A1.1 to A2.2
+                * Stanford "Transformers & LLMs" online course,
                 * Small self-study ML projects to keep skills sharp
                 * Building this personal website
+                * Learning German from A1.1 to A2.2
             logo: logo/pacifier.png
         -
             hide: false
