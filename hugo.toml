@@ -1,6 +1,6 @@
 baseURL = 'https://gayanechilingar.github.io'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'Gayane Chilingaryan'
 
 
 [languages.en]
@@ -12,7 +12,7 @@ title = "Gayane Chilingaryan"
 weight = 10
 
 [languages.en.params.paige.site]
-#description = "Powerful, pliable pixel perfection"
+description = "Gayane Chilingaryan — Data Scientist specializing in machine learning, applied AI, and computational chemistry. Researcher in molecular representations and drug discovery."
 
 [markup.goldmark.renderer]
 unsafe = true

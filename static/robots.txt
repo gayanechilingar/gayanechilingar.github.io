@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gayanechilingar.github.io/sitemap.xml
